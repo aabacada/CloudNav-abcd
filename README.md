@@ -133,14 +133,14 @@
 ### 📋 简明部署步骤 (适合有经验用户)
 
 1.  **Fork 项目**: 点击右上角 Fork 按钮，将本项目克隆到您的 GitHub 账号。
-2.  **创建 Pages 应用**: 登录 Cloudflare Dashboard -> Workers & Pages -> 创建应用程序 -> Pages -> 连接到 Git -> 选择 `CloudNav-`。
+2.  **创建 Pages 应用**: 登录 Cloudflare Dashboard -> Workers & Pages -> 创建应用程序 -> Pages -> 连接到 Git -> 选择 `CloudNav-abcd`
 3.  **配置构建**:
     *   框架预设: **无 (None)**
     *   构建命令: `npm run build`
     *   输出目录: `dist`
-4.  **创建数据库**: 在 Workers & Pages -> KV 中创建一个新的命名空间，命名为 `CLOUDNAV_DB`。
+4.  **创建数据库**: 在 Workers & Pages -> KV 中创建一个新的命名空间，命名为 `CLOUDNAV_DB`
 5.  **绑定变量**:
-    *   进入 Pages 项目设置 -> 绑定 (Bindings) -> 添加 KV 命名空间 -> 变量名填 `CLOUDNAV_KV`，值选择刚才创建的 `CLOUDNAV_DB`。
+    *   进入 Pages 项目设置 -> 绑定 (Bindings) -> 添加 KV 命名空间 -> 变量名填 `CLOUDNAV_KV`，值选择刚才创建的 `CLOUDNAV_DB`
     *   进入 环境变量 (Environment variables) -> 添加变量 `PASSWORD`，值为您的访问密码。
 6.  **部署**: 重新部署项目即可。
 
