@@ -62,37 +62,72 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     onClose();
   };
 
+  const getFaviconUrl = (rawUrl: string) => {
+    if (!rawUrl) return '';
+    try {
+      let formatted = rawUrl.trim();
+      if (!formatted.startsWith('http://') && !formatted.startsWith('https://')) {
+        formatted = 'https://' + formatted;
+      }
+      const url = new URL(formatted);
+      return `https://www.faviconextractor.com/favicon/${url.hostname}?larger=true`;
+    } catch (err) {
+      console.warn('Failed to build favicon url for', rawUrl, err);
+      return '';
+    }
+  };
+
   const handleBulkGenerate = async () => {
-    if (!localConfig.apiKey) {
-        alert("请先配置并保存 API Key");
+    const targets = links.filter(l => !l.description || !l.icon);
+    if (targets.length === 0) {
+        alert("所有链接都已有描述和图标！");
         return;
     }
 
-    const missingLinks = links.filter(l => !l.description);
-    if (missingLinks.length === 0) {
-        alert("所有链接都已有描述！");
+    const needsDescription = targets.some(l => !l.description);
+    if (needsDescription && !localConfig.apiKey) {
+        alert("请先配置并保存 API Key，用于生成缺失的描述");
         return;
     }
 
-    if (!confirm(`发现 ${missingLinks.length} 个链接缺少描述，确定要使用 AI 自动生成吗？这可能需要一些时间。`)) return;
+    const missingDescCount = targets.filter(l => !l.description).length;
+    const missingIconCount = targets.filter(l => !l.icon).length;
+    const confirmMessage = `发现 ${targets.length} 个链接缺少信息，其中 ${missingDescCount} 个缺少描述，${missingIconCount} 个缺少图标。确定要一键补全吗？这可能需要一些时间。`;
+    if (!confirm(confirmMessage)) return;
 
     setIsProcessing(true);
     shouldStopRef.current = false;
-    setProgress({ current: 0, total: missingLinks.length });
+    setProgress({ current: 0, total: targets.length });
     
     let currentLinks = [...links];
 
-    for (let i = 0; i < missingLinks.length; i++) {
+    for (let i = 0; i < targets.length; i++) {
         if (shouldStopRef.current) break;
 
-        const link = missingLinks[i];
+        const link = targets[i];
         try {
-            const desc = await generateLinkDescription(link.title, link.url, localConfig);
-            currentLinks = currentLinks.map(l => l.id === link.id ? { ...l, description: desc } : l);
-            onUpdateLinks(currentLinks);
-            setProgress({ current: i + 1, total: missingLinks.length });
+            const updates: Partial<LinkItem> = {};
+
+            if (!link.description) {
+                const desc = await generateLinkDescription(link.title, link.url, localConfig);
+                updates.description = desc;
+            }
+
+            if (!link.icon) {
+                const iconUrl = getFaviconUrl(link.url);
+                if (iconUrl) {
+                    updates.icon = iconUrl;
+                }
+            }
+
+            if (Object.keys(updates).length > 0) {
+                currentLinks = currentLinks.map(l => l.id === link.id ? { ...l, ...updates } : l);
+                onUpdateLinks(currentLinks);
+            }
         } catch (e) {
-            console.error(`Failed to generate for ${link.title}`, e);
+            console.error(`Failed to process ${link.title}`, e);
+        } finally {
+            setProgress({ current: i + 1, total: targets.length });
         }
     }
 
@@ -375,13 +410,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                         {isProcessing ? (
                             <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg space-y-3">
                                 <div className="flex justify-between text-xs text-slate-600 dark:text-slate-300">
-                                    <span>正在生成描述...</span>
+                                    <span>正在补全描述 / 图标...</span>
                                     <span>{progress.current} / {progress.total}</span>
                                 </div>
                                 <div className="w-full bg-slate-200 dark:bg-slate-600 rounded-full h-2">
                                     <div 
                                         className="bg-blue-500 h-2 rounded-full transition-all duration-300"
-                                        style={{ width: `${(progress.current / progress.total) * 100}%` }}
+                                        style={{ width: `${progress.total ? (progress.current / progress.total) * 100 : 0}%` }}
                                     ></div>
                                 </div>
                                 <button 
@@ -394,13 +429,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                         ) : (
                             <div className="bg-slate-50 dark:bg-slate-700/50 p-4 rounded-lg">
                                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-                                    自动扫描所有没有描述的链接，并调用上方配置的 AI 模型生成简介。
+                                    自动扫描所有没有描述或图标的链接，使用 AI 生成简介，并智能补全站点 favicon。
                                 </div>
                                 <button
                                     onClick={handleBulkGenerate}
                                     className="w-full py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-blue-500 hover:text-blue-500 dark:hover:text-blue-400 dark:text-slate-200 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
                                 >
-                                    <Sparkles size={16} /> 一键补全所有描述
+                                    <Sparkles size={16} /> 一键补全描述与图标
                                 </button>
                             </div>
                         )}
