@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Lock, ArrowRight, Loader2, X } from 'lucide-react';
 import { Category } from '../types';
 
@@ -23,7 +23,7 @@ const CategoryAuthModal: React.FC<CategoryAuthModalProps> = ({ isOpen, onClose, 
         setError('');
         onClose();
     } else {
-        setError('密码错误');
+        setError('密碼錯誤');
     }
   };
 
@@ -38,9 +38,9 @@ const CategoryAuthModal: React.FC<CategoryAuthModalProps> = ({ isOpen, onClose, 
           <div className="w-14 h-14 bg-amber-100 dark:bg-amber-900/30 rounded-full flex items-center justify-center mb-4 text-amber-600 dark:text-amber-400">
             <Lock size={28} />
           </div>
-          <h2 className="text-lg font-bold dark:text-white">解锁 "{category.name}"</h2>
+          <h2 className="text-lg font-bold dark:text-white">解鎖 "{category.name}"</h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 text-center mt-2">
-            该目录受密码保护，请输入密码访问
+            該目錄受密碼保護，請輸入密碼訪問
           </p>
         </div>
 
@@ -51,7 +51,7 @@ const CategoryAuthModal: React.FC<CategoryAuthModalProps> = ({ isOpen, onClose, 
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-amber-500 outline-none transition-all text-center tracking-widest"
-              placeholder="目录密码"
+              placeholder="目錄密碼"
               autoFocus
             />
           </div>
@@ -67,12 +67,11 @@ const CategoryAuthModal: React.FC<CategoryAuthModalProps> = ({ isOpen, onClose, 
             disabled={!password}
             className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2"
           >
-            解锁 <ArrowRight size={18} />
+            解鎖 <ArrowRight size={18} />
           </button>
         </form>
       </div>
     </div>
   );
 };
-
 export default CategoryAuthModal;

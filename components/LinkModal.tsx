@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Loader2, Pin, Wand2, Trash2 } from 'lucide-react';
 import { LinkItem, Category, AIConfig } from '../types';
 import { generateLinkDescription, suggestCategory } from '../services/geminiService';
@@ -27,7 +27,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
   const [batchMode, setBatchMode] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   
-  // 当模态框关闭时，重置批量模式为默认关闭状态
+  // 當模態框關閉時，重設批次模式為默認關閉狀態
   useEffect(() => {
     if (!isOpen) {
       setBatchMode(false);
@@ -35,7 +35,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
     }
   }, [isOpen]);
   
-  // 成功提示1秒后自动消失
+  // 成功提示1秒後自動消失
   useEffect(() => {
     if (showSuccessMessage) {
       const timer = setTimeout(() => {
@@ -58,7 +58,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
         setTitle('');
         setUrl('');
         setDescription('');
-        // 如果有默认分类ID且该分类存在，则使用默认分类，否则使用第一个分类
+        // 如果有預設分類ID且該分類存在，則使用預設分類，否則使用第一個分類
         const defaultCategory = defaultCategoryId && categories.find(cat => cat.id === defaultCategoryId);
         setCategoryId(defaultCategory ? defaultCategoryId : (categories[0]?.id || 'common'));
         setPinned(false);
@@ -67,12 +67,12 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
     }
   }, [isOpen, initialData, categories, defaultCategoryId]);
 
-  // 当URL变化且启用自动获取图标时，自动获取图标
+  // 當URL變化且啟用自動獲取圖示時，自動獲取圖示
   useEffect(() => {
     if (url && autoFetchIcon && !initialData) {
       const timer = setTimeout(() => {
         handleFetchIcon();
-      }, 500); // 延迟500ms执行，避免频繁请求
+      }, 500); // 延遲500ms執行，避免頻繁請求
       
       return () => clearTimeout(timer);
     }
@@ -84,7 +84,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
     onClose();
   };
 
-  // 缓存自定义图标到KV空间
+  // 快取自訂圖示到KV空間
   const cacheCustomIcon = async (url: string, iconUrl: string) => {
     try {
       // 提取域名
@@ -94,7 +94,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
         domain = urlObj.hostname;
       }
       
-      // 将自定义图标保存到KV缓存
+      // 將自訂圖示保存到KV快取
       const authToken = localStorage.getItem('authToken');
       if (authToken) {
         await fetch('/api/storage', {
@@ -121,13 +121,13 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
     
     if (!title || !url) return;
     
-    // 确保URL有协议前缀
+    // 確保URL有協議前綴
     let finalUrl = url;
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       finalUrl = 'https://' + url;
     }
     
-    // 保存链接数据
+    // 保存連結數據
     onSave({
       id: initialData?.id || '',
       title,
@@ -138,21 +138,21 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
       pinned
     });
     
-    // 如果有自定义图标URL，缓存到KV空间
+    // 如果有自訂圖示URL，快取到KV空間
     if (icon && !icon.includes('faviconextractor.com')) {
       cacheCustomIcon(finalUrl, icon);
     }
     
-    // 批量模式下不关闭窗口，只显示成功提示
+    // 批次模式下不關閉窗口，只顯示成功提示
     if (batchMode) {
       setShowSuccessMessage(true);
-      // 重置表单，但保留分类和批量模式设置
+      // 重設表單，但保留分類和批次模式設置
       setTitle('');
       setUrl('');
       setIcon('');
       setDescription('');
       setPinned(false);
-      // 如果开启自动获取图标，尝试获取新图标
+      // 如果開啟自動獲取圖示，嘗試獲取新圖示
       if (autoFetchIcon && finalUrl) {
         handleFetchIcon();
       }
@@ -164,7 +164,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
   const handleAIAssist = async () => {
     if (!url || !title) return;
     if (!aiConfig.apiKey) {
-        alert("请先点击侧边栏左下角设置图标配置 AI API Key");
+        alert("請先點擊側邊欄左下角設置圖示配置 AI API Key");
         return;
     }
 
@@ -194,7 +194,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
     try {
       // 提取域名
       let domain = url;
-      // 如果URL没有协议前缀，添加https://作为默认协议
+      // 如果URL沒有協議前綴，添加https://作為默認協議
       if (!url.startsWith('http://') && !url.startsWith('https://')) {
         domain = 'https://' + url;
       }
@@ -204,7 +204,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
         domain = urlObj.hostname;
       }
       
-      // 先尝试从KV缓存获取图标
+      // 先嘗試從KV快取獲取圖示
       try {
         const response = await fetch(`/api/storage?getConfig=favicon&domain=${encodeURIComponent(domain)}`);
         if (response.ok) {
@@ -219,11 +219,11 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
         console.log("Failed to fetch cached icon, will generate new one", error);
       }
       
-      // 如果缓存中没有，则生成新图标
+      // 如果快取中沒有，則生成新圖示
       const iconUrl = `https://www.faviconextractor.com/favicon/${domain}?larger=true`;
       setIcon(iconUrl);
       
-      // 将图标保存到KV缓存
+      // 將圖示保存到KV快取
       try {
         const authToken = localStorage.getItem('authToken');
         if (authToken) {
@@ -245,7 +245,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
       }
     } catch (e) {
       console.error("Failed to fetch icon", e);
-      alert("无法获取图标，请检查URL是否正确");
+      alert("無法獲取圖示，請檢查URL是否正確");
     } finally {
       setIsFetchingIcon(false);
     }
@@ -259,7 +259,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
         <div className="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
           <div className="flex items-center gap-2">
             <h3 className="text-lg font-semibold dark:text-white">
-              {initialData ? '编辑链接' : '添加新链接'}
+              {initialData ? '編輯連結' : '添加新連結'}
             </h3>
             <button
               type="button"
@@ -269,10 +269,10 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
                 ? 'bg-blue-100 border-blue-200 text-blue-600 dark:bg-blue-900/40 dark:border-blue-800 dark:text-blue-300' 
                 : 'bg-slate-50 border-slate-200 text-slate-500 dark:bg-slate-700 dark:border-slate-600 dark:text-slate-400'
               }`}
-              title={pinned ? "取消置顶" : "置顶"}
+              title={pinned ? "取消置頂" : "置頂"}
             >
               <Pin size={14} className={pinned ? "fill-current" : ""} />
-              <span className="text-xs font-medium">置顶</span>
+              <span className="text-xs font-medium">置頂</span>
             </button>
             {!initialData && (
               <div className="flex items-center gap-1 px-2 py-1 rounded-md border bg-slate-50 border-slate-200 dark:bg-slate-700 dark:border-slate-600">
@@ -284,7 +284,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
                   className="h-3 w-3 text-blue-600 focus:ring-blue-500 border-slate-300 rounded dark:border-slate-600 dark:bg-slate-700"
                 />
                 <label htmlFor="batchMode" className="text-xs font-medium text-slate-500 dark:text-slate-400 cursor-pointer">
-                  批量添加不关窗口
+                  批次添加不關窗口
                 </label>
               </div>
             )}
@@ -295,10 +295,10 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
                 className={`flex items-center gap-1 px-2 py-1 rounded-md border transition-all ${
                   'bg-red-50 border-red-200 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:border-red-800/30 dark:text-red-400 dark:hover:bg-red-900/30'
                 }`}
-                title="删除链接"
+                title="刪除連結"
               >
                 <Trash2 size={14} />
-                <span className="text-xs font-medium">删除</span>
+                <span className="text-xs font-medium">刪除</span>
               </button>
             )}
           </div>
@@ -309,19 +309,19 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
 
         <form onSubmit={handleSave} className="p-4 space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 dark:text-slate-300">标题</label>
+            <label className="block text-sm font-medium mb-1 dark:text-slate-300">標題</label>
             <input
               type="text"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-              placeholder="网站名称"
+              placeholder="網站名稱"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 dark:text-slate-300">URL 链接</label>
+            <label className="block text-sm font-medium mb-1 dark:text-slate-300">URL 連結</label>
             <div className="flex gap-2">
                 <input
                 type="text"
@@ -335,13 +335,13 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 dark:text-slate-300">图标 URL</label>
+            <label className="block text-sm font-medium mb-1 dark:text-slate-300">圖示 URL</label>
             <div className="flex gap-2">
               {icon && (
                 <div className="w-10 h-10 rounded-lg border border-slate-300 dark:border-slate-600 overflow-hidden flex-shrink-0 bg-white dark:bg-slate-700">
                   <img
                     src={icon}
-                    alt="图标预览"
+                    alt="圖示預覽"
                     className="w-full h-full object-contain"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
@@ -367,7 +367,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
                 ) : (
                   <Wand2 className="w-4 h-4" />
                 )}
-                获取图标
+                獲取圖示
               </button>
             </div>
             <div className="flex items-center gap-2 mt-2">
@@ -379,14 +379,14 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded dark:border-slate-600 dark:bg-slate-700"
               />
               <label htmlFor="autoFetchIcon" className="text-sm text-slate-700 dark:text-slate-300">
-                自动获取URL链接的图标
+                自動獲取URL連結的圖示
               </label>
             </div>
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-1">
-                <label className="block text-sm font-medium dark:text-slate-300">描述 (选填)</label>
+                <label className="block text-sm font-medium dark:text-slate-300">描述 (選填)</label>
                 {(title && url) && (
                     <button
                         type="button"
@@ -395,7 +395,7 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
                         className="text-xs flex items-center gap-1 text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
                     >
                         {isGenerating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
-                        AI 自动填写
+                        AI 自動填寫
                     </button>
                 )}
             </div>
@@ -403,12 +403,12 @@ const LinkModal: React.FC<LinkModalProps> = ({ isOpen, onClose, onSave, onDelete
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all h-20 resize-none"
-              placeholder="简短描述..."
+              placeholder="簡短描述..."
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1 dark:text-slate-300">分类</label>
+            <label className="block text-sm font-medium mb-1 dark:text-slate-300">分類</label>
             <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}

@@ -1,4 +1,4 @@
-
+﻿
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   Search, Plus, Upload, Moon, Sun, Menu, 
@@ -38,8 +38,8 @@ import SearchConfigModal from './components/SearchConfigModal';
 import ContextMenu from './components/ContextMenu';
 import QRCodeModal from './components/QRCodeModal';
 
-// --- 配置项 ---
-// 项目核心仓库地址
+// --- 配置項 ---
+// 項目核心倉庫地址
 const GITHUB_REPO_URL = 'https://github.com/aabacada/CloudNav-abcd';
 
 const LOCAL_STORAGE_KEY = 'cloudnav_data_cache';
@@ -98,7 +98,7 @@ function App() {
           } catch (e) {}
       }
       return {
-          title: 'CloudNav - 我的导航',
+          title: 'CloudNav - 我的導航',
           navTitle: 'CloudNav',
           favicon: '',
           cardStyle: 'detailed' as const,
@@ -123,16 +123,16 @@ function App() {
   // Sync State
   const [syncStatus, setSyncStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [authToken, setAuthToken] = useState<string>('');
-  const [requiresAuth, setRequiresAuth] = useState<boolean | null>(null); // null表示未检查，true表示需要认证，false表示不需要
+  const [requiresAuth, setRequiresAuth] = useState<boolean | null>(null); // null表示未檢查，true表示需要認證，false表示不需要
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   
   // Sort State
-  const [isSortingMode, setIsSortingMode] = useState<string | null>(null); // 存储正在排序的分类ID，null表示不在排序模式
-  const [isSortingPinned, setIsSortingPinned] = useState(false); // 是否正在排序置顶链接
+  const [isSortingMode, setIsSortingMode] = useState<string | null>(null); // 儲存正在排序的分類ID，null表示不在排序模式
+  const [isSortingPinned, setIsSortingPinned] = useState(false); // 是否正在排序置頂連結
   
   // Batch Edit State
-  const [isBatchEditMode, setIsBatchEditMode] = useState(false); // 是否处于批量编辑模式
-  const [selectedLinks, setSelectedLinks] = useState<Set<string>>(new Set()); // 选中的链接ID集合
+  const [isBatchEditMode, setIsBatchEditMode] = useState(false); // 是否處於批次編輯模式
+  const [selectedLinks, setSelectedLinks] = useState<Set<string>>(new Set()); // 選中的連結ID集合
   
   // Context Menu State
   const [contextMenu, setContextMenu] = useState<{
@@ -181,14 +181,14 @@ function App() {
         const parsed = JSON.parse(stored);
         let loadedCategories = parsed.categories || DEFAULT_CATEGORIES;
         
-        // 确保"常用推荐"分类始终存在，并确保它是第一个分类
+        // 確保"常用推薦"分類始終存在，並確保它是第一個分類
         if (!loadedCategories.some(c => c.id === 'common')) {
           loadedCategories = [
-            { id: 'common', name: '常用推荐', icon: 'Star' },
+            { id: 'common', name: '常用推薦', icon: 'Star' },
             ...loadedCategories
           ];
         } else {
-          // 如果"常用推荐"分类已存在，确保它是第一个分类
+          // 如果"常用推薦"分類已存在，確保它是第一個分類
           const commonIndex = loadedCategories.findIndex(c => c.id === 'common');
           if (commonIndex > 0) {
             const commonCategory = loadedCategories[commonIndex];
@@ -200,7 +200,7 @@ function App() {
           }
         }
         
-        // 检查是否有链接的categoryId不存在于当前分类中，将这些链接移动到"常用推荐"
+        // 檢查是否有連結的categoryId不存在於當前分類中，將這些連結移動到"常用推薦"
         const validCategoryIds = new Set(loadedCategories.map(c => c.id));
         let loadedLinks = parsed.links || INITIAL_LINKS;
         loadedLinks = loadedLinks.map(link => {
@@ -235,14 +235,14 @@ function App() {
         });
 
         if (response.status === 401) {
-            // 检查是否是密码过期
+            // 檢查是否是密碼過期
             try {
                 const errorData = await response.json();
-                if (errorData.error && errorData.error.includes('过期')) {
-                    alert('您的密码已过期，请重新登录');
+                if (errorData.error && errorData.error.includes('過期')) {
+                    alert('您的密碼已過期，請重新登入');
                 }
             } catch (e) {
-                // 如果无法解析错误信息，使用默认提示
+                // 如果無法解析錯誤資訊，使用默認提示
                 console.error('Failed to parse error response', e);
             }
             
@@ -284,7 +284,7 @@ function App() {
     event.preventDefault();
     event.stopPropagation();
     
-    // 在批量编辑模式下禁用右键菜单
+    // 在批次編輯模式下禁用右鍵菜單
     if (isBatchEditMode) return;
     
     setContextMenu({
@@ -307,11 +307,11 @@ function App() {
     
     navigator.clipboard.writeText(contextMenu.link.url)
       .then(() => {
-        // 可以添加一个短暂的提示
-        console.log('链接已复制到剪贴板');
+        // 可以添加一個短暫的提示
+        console.log('連結已複製到剪貼簿');
       })
       .catch(err => {
-        console.error('复制链接失败:', err);
+        console.error('複製連結失敗:', err);
       });
     
     closeContextMenu();
@@ -340,7 +340,7 @@ function App() {
   const deleteLinkFromContextMenu = () => {
     if (!contextMenu.link) return;
     
-    if (window.confirm(`确定要删除"${contextMenu.link.title}"吗？`)) {
+    if (window.confirm(`確定要刪除"${contextMenu.link.title}"嗎？`)) {
       const newLinks = links.filter(link => link.id !== contextMenu.link!.id);
       updateData(newLinks, categories);
     }
@@ -354,8 +354,8 @@ function App() {
     const linkToToggle = links.find(l => l.id === contextMenu.link!.id);
     if (!linkToToggle) return;
     
-    // 如果是设置为置顶，则设置pinnedOrder为当前置顶链接数量
-    // 如果是取消置顶，则清除pinnedOrder
+    // 如果是設置為置頂，則設置pinnedOrder為當前置頂連結數量
+    // 如果是取消置頂，則清除pinnedOrder
     const updated = links.map(l => {
       if (l.id === contextMenu.link!.id) {
         const isPinned = !l.pinned;
@@ -372,14 +372,14 @@ function App() {
     closeContextMenu();
   };
 
-  // 加载链接图标缓存
+  // 載入連結圖示快取
   const loadLinkIcons = async (linksToLoad: LinkItem[]) => {
-    if (!authToken) return; // 只有在已登录状态下才加载图标缓存
+    if (!authToken) return; // 只有在已登錄狀態下才載入圖示快取
     
     const updatedLinks = [...linksToLoad];
     const domainsToFetch: string[] = [];
     
-    // 收集所有链接的域名（包括已有图标的链接）
+    // 收集所有連結的域名（包括已有圖示的連結）
     for (const link of updatedLinks) {
       if (link.url) {
         try {
@@ -399,7 +399,7 @@ function App() {
       }
     }
     
-    // 批量获取图标
+    // 批次獲取圖示
     if (domainsToFetch.length > 0) {
       const iconPromises = domainsToFetch.map(async (domain) => {
         try {
@@ -418,7 +418,7 @@ function App() {
       
       const iconResults = await Promise.all(iconPromises);
       
-      // 更新链接的图标
+      // 更新連結的圖示
       iconResults.forEach(result => {
         if (result) {
           const linkToUpdate = updatedLinks.find(link => {
@@ -440,7 +440,7 @@ function App() {
           });
           
           if (linkToUpdate) {
-            // 只有当链接没有图标，或者当前图标是faviconextractor.com生成的，或者缓存中的图标是自定义图标时才更新
+            // 只有當連結沒有圖示，或者當前圖示是faviconextractor.com生成的，或者快取中的圖示是自訂圖示時才更新
             if (!linkToUpdate.icon || 
                 linkToUpdate.icon.includes('faviconextractor.com') || 
                 !result.icon.includes('faviconextractor.com')) {
@@ -450,7 +450,7 @@ function App() {
         }
       });
       
-      // 更新状态
+      // 更新狀態
       setLinks(updatedLinks);
     }
   };
@@ -517,14 +517,14 @@ function App() {
 
     // Initial Data Fetch
     const initData = async () => {
-        // 首先检查是否需要认证
+        // 首先檢查是否需要認證
         try {
             const authRes = await fetch('/api/storage?checkAuth=true');
             if (authRes.ok) {
                 const authData = await authRes.json();
                 setRequiresAuth(authData.requiresAuth);
                 
-                // 如果需要认证但用户未登录，则不获取数据
+                // 如果需要認證但用戶未登錄，則不獲取數據
                 if (authData.requiresAuth && !savedToken) {
                     setIsCheckingAuth(false);
                     setIsAuthOpen(true);
@@ -535,7 +535,7 @@ function App() {
             console.warn("Failed to check auth requirement.", e);
         }
         
-        // 获取数据
+        // 獲取數據
         let hasCloudData = false;
         try {
             const res = await fetch('/api/storage', {
@@ -548,14 +548,14 @@ function App() {
                     setCategories(data.categories || DEFAULT_CATEGORIES);
                     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
                     
-                    // 加载链接图标缓存
+                    // 載入連結圖示快取
                     loadLinkIcons(data.links);
                     hasCloudData = true;
                 }
             } else if (res.status === 401) {
-                // 如果返回401，可能是密码过期，清除本地token并要求重新登录
+                // 如果返回401，可能是密碼過期，清除本地token並要求重新登入
                 const errorData = await res.json();
-                if (errorData.error && errorData.error.includes('过期')) {
+                if (errorData.error && errorData.error.includes('過期')) {
                     setAuthToken(null);
                     localStorage.removeItem(AUTH_KEY);
                     setIsAuthOpen(true);
@@ -567,23 +567,23 @@ function App() {
             console.warn("Failed to fetch from cloud, falling back to local.", e);
         }
         
-        // 无论是否有云端数据，都尝试从KV空间加载搜索配置和网站配置
+        // 無論是否有雲端數據，都嘗試從KV空間載入搜索配置和網站配置
         try {
             const searchConfigRes = await fetch('/api/storage?getConfig=search');
             if (searchConfigRes.ok) {
                 const searchConfigData = await searchConfigRes.json();
-                // 检查搜索配置是否有效（包含必要的字段）
+                // 檢查搜索配置是否有效（包含必要的欄位）
                 if (searchConfigData && (searchConfigData.mode || searchConfigData.externalSources || searchConfigData.selectedSource)) {
                     setSearchMode(searchConfigData.mode || 'external');
                     setExternalSearchSources(searchConfigData.externalSources || []);
-                    // 加载已保存的选中搜索源
+                    // 載入已保存的選中搜索源
                     if (searchConfigData.selectedSource) {
                         setSelectedSearchSource(searchConfigData.selectedSource);
                     }
                 }
             }
             
-            // 获取网站配置（包括密码过期时间设置）
+            // 獲取網站配置（包括密碼過期時間設定）
             const websiteConfigRes = await fetch('/api/storage?getConfig=website');
             if (websiteConfigRes.ok) {
                 const websiteConfigData = await websiteConfigRes.json();
@@ -602,21 +602,21 @@ function App() {
             console.warn("Failed to fetch configs from KV.", e);
         }
         
-        // 如果有云端数据，则不需要加载本地数据
+        // 如果有雲端數據，則不需要載入本地數據
         if (hasCloudData) {
             setIsCheckingAuth(false);
             return;
         }
         
-        // 如果没有云端数据，则加载本地数据
+        // 如果沒有雲端數據，則載入本地數據
         loadFromLocal();
         
-        // 如果从KV空间加载搜索配置失败，直接使用默认配置（不使用localStorage回退）
+        // 如果從KV空間載入搜索配置失敗，直接使用默認配置（不使用localStorage回退）
         setSearchMode('external');
         setExternalSearchSources([
             {
                 id: 'bing',
-                name: '必应',
+                name: '必應',
                 url: 'https://www.bing.com/search?q={query}',
                 icon: 'Search',
                 enabled: true,
@@ -688,7 +688,7 @@ function App() {
             },
             {
                 id: 'wikipedia',
-                name: '维基',
+                name: '維基',
                 url: 'https://zh.wikipedia.org/wiki/Special:Search?search={query}',
                 icon: 'BookOpen',
                 enabled: true,
@@ -734,7 +734,7 @@ function App() {
     }
   };
 
-  // 视图模式切换处理函数
+  // 視圖模式切換處理函數
   const handleViewModeChange = (cardStyle: 'detailed' | 'simple') => {
     const newSiteSettings = { ...siteSettings, cardStyle };
     setSiteSettings(newSiteSettings);
@@ -744,7 +744,7 @@ function App() {
   // --- Batch Edit Functions ---
   const toggleBatchEditMode = () => {
     setIsBatchEditMode(!isBatchEditMode);
-    setSelectedLinks(new Set()); // 退出批量编辑模式时清空选中项
+    setSelectedLinks(new Set()); // 退出批次編輯模式時清空選中項
   };
 
   const toggleLinkSelection = (linkId: string) => {
@@ -763,11 +763,11 @@ function App() {
     if (!authToken) { setIsAuthOpen(true); return; }
     
     if (selectedLinks.size === 0) {
-      alert('请先选择要删除的链接');
+      alert('請先選擇要刪除的連結');
       return;
     }
     
-    if (confirm(`确定要删除选中的 ${selectedLinks.size} 个链接吗？`)) {
+    if (confirm(`確定要刪除選中的 ${selectedLinks.size} 個連結嗎？`)) {
       const newLinks = links.filter(link => !selectedLinks.has(link.id));
       updateData(newLinks, categories);
       setSelectedLinks(new Set());
@@ -779,7 +779,7 @@ function App() {
     if (!authToken) { setIsAuthOpen(true); return; }
     
     if (selectedLinks.size === 0) {
-      alert('请先选择要移动的链接');
+      alert('請先選擇要移動的連結');
       return;
     }
     
@@ -792,14 +792,14 @@ function App() {
   };
 
   const handleSelectAll = () => {
-    // 获取当前显示的所有链接ID
+    // 獲取當前顯示的所有連結ID
     const currentLinkIds = displayedLinks.map(link => link.id);
     
-    // 如果已选中的链接数量等于当前显示的链接数量，则取消全选
+    // 如果已選中的連結數量等於當前顯示的連結數量，則取消全選
     if (selectedLinks.size === currentLinkIds.length && currentLinkIds.every(id => selectedLinks.has(id))) {
       setSelectedLinks(new Set());
     } else {
-      // 否则全选当前显示的所有链接
+      // 否則全選當前顯示的所有連結
       setSelectedLinks(new Set(currentLinkIds));
     }
   };
@@ -808,14 +808,14 @@ function App() {
 
   const handleLogin = async (password: string): Promise<boolean> => {
       try {
-        // 首先验证密码
+        // 首先驗證密碼
         const authResponse = await fetch('/api/storage', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'x-auth-password': password
             },
-            body: JSON.stringify({ authOnly: true }) // 只用于验证密码，不更新数据
+            body: JSON.stringify({ authOnly: true }) // 只用於驗證密碼，不更新數據
         });
         
         if (authResponse.ok) {
@@ -824,7 +824,7 @@ function App() {
             setIsAuthOpen(false);
             setSyncStatus('saved');
             
-            // 登录成功后，获取网站配置（包括密码过期时间设置）
+            // 登錄成功後，獲取網站配置（包括密碼過期時間設定）
             try {
                 const websiteConfigRes = await fetch('/api/storage?getConfig=website');
                 if (websiteConfigRes.ok) {
@@ -844,7 +844,7 @@ function App() {
                 console.warn("Failed to fetch website config after login.", e);
             }
             
-            // 检查密码是否过期
+            // 檢查密碼是否過期
             const lastLoginTime = localStorage.getItem('lastLoginTime');
             const currentTime = Date.now();
             
@@ -858,44 +858,44 @@ function App() {
                     setAuthToken(null);
                     localStorage.removeItem(AUTH_KEY);
                     setIsAuthOpen(true);
-                    alert('您的密码已过期，请重新登录');
+                    alert('您的密碼已過期，請重新登入');
                     return false;
                 }
             }
             
             localStorage.setItem('lastLoginTime', currentTime.toString());
             
-            // 登录成功后，从服务器获取数据
+            // 登錄成功後，從伺服器獲取數據
             try {
                 const res = await fetch('/api/storage');
                 if (res.ok) {
                     const data = await res.json();
-                    // 如果服务器有数据，使用服务器数据
+                    // 如果伺服器有數據，使用伺服器數據
                     if (data.links && data.links.length > 0) {
                         setLinks(data.links);
                         setCategories(data.categories || DEFAULT_CATEGORIES);
                         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
                         
-                        // 加载链接图标缓存
+                        // 載入連結圖示快取
                         loadLinkIcons(data.links);
                     } else {
-                        // 如果服务器没有数据，使用本地数据
+                        // 如果伺服器沒有數據，使用本地數據
                         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({ links, categories }));
-                        // 并将本地数据同步到服务器
+                        // 並將本地數據同步到伺服器
                         syncToCloud(links, categories, password);
                         
-                        // 加载链接图标缓存
+                        // 載入連結圖示快取
                         loadLinkIcons(links);
                     }
                 } 
             } catch (e) {
                 console.warn("Failed to fetch data after login.", e);
                 loadFromLocal();
-                // 尝试将本地数据同步到服务器
+                // 嘗試將本地數據同步到伺服器
                 syncToCloud(links, categories, password);
             }
             
-            // 登录成功后，从KV空间加载AI配置
+            // 登錄成功後，從KV空間載入AI配置
             try {
                 const aiConfigRes = await fetch('/api/storage?getConfig=ai');
                 if (aiConfigRes.ok) {
@@ -921,14 +921,14 @@ function App() {
       setAuthToken(null);
       localStorage.removeItem(AUTH_KEY);
       setSyncStatus('offline');
-      // 退出后重新加载本地数据
+      // 退出後重新載入本地數據
       loadFromLocal();
   };
 
-  // 分类操作密码验证处理函数
+  // 分類操作密碼驗證處理函數
   const handleCategoryActionAuth = async (password: string): Promise<boolean> => {
     try {
-      // 验证密码
+      // 驗證密碼
       const authResponse = await fetch('/api/storage', {
         method: 'POST',
         headers: {
@@ -945,7 +945,7 @@ function App() {
     }
   };
 
-  // 打开分类操作验证弹窗
+  // 打開分類操作驗證彈出視窗
   const openCategoryActionAuth = (action: 'edit' | 'delete', categoryId: string, categoryName: string) => {
     setCategoryActionAuth({
       isOpen: true,
@@ -955,7 +955,7 @@ function App() {
     });
   };
 
-  // 关闭分类操作验证弹窗
+  // 關閉分類操作驗證彈出視窗
   const closeCategoryActionAuth = () => {
     setCategoryActionAuth({
       isOpen: false,
@@ -969,9 +969,9 @@ function App() {
       // Merge categories: Avoid duplicate names/IDs
       const mergedCategories = [...categories];
       
-      // 确保"常用推荐"分类始终存在
+      // 確保"常用推薦"分類始終存在
       if (!mergedCategories.some(c => c.id === 'common')) {
-        mergedCategories.push({ id: 'common', name: '常用推荐', icon: 'Star' });
+        mergedCategories.push({ id: 'common', name: '常用推薦', icon: 'Star' });
       }
       
       newCategories.forEach(nc => {
@@ -983,59 +983,59 @@ function App() {
       const mergedLinks = [...links, ...newLinks];
       updateData(mergedLinks, mergedCategories);
       setIsImportModalOpen(false);
-      alert(`成功导入 ${newLinks.length} 个新书签!`);
+      alert(`成功導入 ${newLinks.length} 個新書籤!`);
   };
 
   const handleAddLink = (data: Omit<LinkItem, 'id' | 'createdAt'>) => {
     if (!authToken) { setIsAuthOpen(true); return; }
     
-    // 处理URL，确保有协议前缀
+    // 處理URL，確保有協議前綴
     let processedUrl = data.url;
     if (processedUrl && !processedUrl.startsWith('http://') && !processedUrl.startsWith('https://')) {
       processedUrl = 'https://' + processedUrl;
     }
     
-    // 获取当前分类下的所有链接（不包括置顶链接）
+    // 獲取當前分類下的所有連結（不包括置頂連結）
     const categoryLinks = links.filter(link => 
       !link.pinned && (data.categoryId === 'all' || link.categoryId === data.categoryId)
     );
     
-    // 计算新链接的order值，使其排在分类最后
+    // 計算新連結的order值，使其排在分類最後
     const maxOrder = categoryLinks.length > 0 
       ? Math.max(...categoryLinks.map(link => link.order || 0))
       : -1;
     
     const newLink: LinkItem = {
       ...data,
-      url: processedUrl, // 使用处理后的URL
+      url: processedUrl, // 使用處理後的URL
       id: Date.now().toString(),
       createdAt: Date.now(),
-      order: maxOrder + 1, // 设置为当前分类的最大order值+1，确保排在最后
-      // 如果是置顶链接，设置pinnedOrder为当前置顶链接数量
+      order: maxOrder + 1, // 設置為當前分類的最大order值+1，確保排在最後
+      // 如果是置頂連結，設置pinnedOrder為當前置頂連結數量
       pinnedOrder: data.pinned ? links.filter(l => l.pinned).length : undefined
     };
     
-    // 将新链接插入到合适的位置，而不是直接放在开头
-    // 如果是置顶链接，放在置顶链接区域的最后
+    // 將新連結插入到合適的位置，而不是直接放在開頭
+    // 如果是置頂連結，放在置頂連結區域的最後
     if (newLink.pinned) {
       const firstNonPinnedIndex = links.findIndex(link => !link.pinned);
       if (firstNonPinnedIndex === -1) {
-        // 如果没有非置顶链接，直接添加到末尾
+        // 如果沒有非置頂連結，直接添加到末尾
         updateData([...links, newLink], categories);
       } else {
-        // 插入到非置顶链接之前
+        // 插入到非置頂連結之前
         const updatedLinks = [...links];
         updatedLinks.splice(firstNonPinnedIndex, 0, newLink);
         updateData(updatedLinks, categories);
       }
     } else {
-      // 非置顶链接，按照order字段排序后插入
+      // 非置頂連結，按照order欄位排序後插入
       const updatedLinks = [...links, newLink].sort((a, b) => {
-        // 置顶链接始终排在前面
+        // 置頂連結始終排在前面
         if (a.pinned && !b.pinned) return -1;
         if (!a.pinned && b.pinned) return 1;
         
-        // 同类型链接按照order排序
+        // 同類型連結按照order排序
         const aOrder = a.order !== undefined ? a.order : a.createdAt;
         const bOrder = b.order !== undefined ? b.order : b.createdAt;
         return aOrder - bOrder;
@@ -1051,7 +1051,7 @@ function App() {
     if (!authToken) { setIsAuthOpen(true); return; }
     if (!editingLink) return;
     
-    // 处理URL，确保有协议前缀
+    // 處理URL，確保有協議前綴
     let processedUrl = data.url;
     if (processedUrl && !processedUrl.startsWith('http://') && !processedUrl.startsWith('https://')) {
       processedUrl = 'https://' + processedUrl;
@@ -1062,25 +1062,25 @@ function App() {
     setEditingLink(undefined);
   };
 
-  // 拖拽结束事件处理函数
+  // 拖拽結束事件處理函數
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      // 获取当前分类下的所有链接
+      // 獲取當前分類下的所有連結
       const categoryLinks = links.filter(link => 
         selectedCategory === 'all' || link.categoryId === selectedCategory
       );
       
-      // 找到被拖拽元素和目标元素的索引
+      // 找到被拖拽元素和目標元素的索引
       const activeIndex = categoryLinks.findIndex(link => link.id === active.id);
       const overIndex = categoryLinks.findIndex(link => link.id === over.id);
       
       if (activeIndex !== -1 && overIndex !== -1) {
-        // 重新排序当前分类的链接
+        // 重新排序當前分類的連結
         const reorderedCategoryLinks = arrayMove(categoryLinks, activeIndex, overIndex);
         
-        // 更新所有链接的顺序
+        // 更新所有連結的順序
         const updatedLinks = links.map(link => {
           const reorderedIndex = reorderedCategoryLinks.findIndex(l => l.id === link.id);
           if (reorderedIndex !== -1) {
@@ -1089,7 +1089,7 @@ function App() {
           return link;
         });
         
-        // 按照order字段重新排序
+        // 按照order欄位重新排序
         updatedLinks.sort((a, b) => (a.order || 0) - (b.order || 0));
         
         updateData(updatedLinks, categories);
@@ -1097,29 +1097,29 @@ function App() {
     }
   };
 
-  // 置顶链接拖拽结束事件处理函数
+  // 置頂連結拖拽結束事件處理函數
   const handlePinnedDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
-      // 获取所有置顶链接
+      // 獲取所有置頂連結
       const pinnedLinksList = links.filter(link => link.pinned);
       
-      // 找到被拖拽元素和目标元素的索引
+      // 找到被拖拽元素和目標元素的索引
       const activeIndex = pinnedLinksList.findIndex(link => link.id === active.id);
       const overIndex = pinnedLinksList.findIndex(link => link.id === over.id);
       
       if (activeIndex !== -1 && overIndex !== -1) {
-        // 重新排序置顶链接
+        // 重新排序置頂連結
         const reorderedPinnedLinks = arrayMove(pinnedLinksList, activeIndex, overIndex);
         
-        // 创建一个映射，存储每个置顶链接的新pinnedOrder
+        // 創建一個映射，儲存每個置頂連結的新pinnedOrder
         const pinnedOrderMap = new Map<string, number>();
         reorderedPinnedLinks.forEach((link, index) => {
           pinnedOrderMap.set(link.id, index);
         });
         
-        // 只更新置顶链接的pinnedOrder，不改变任何链接的顺序
+        // 只更新置頂連結的pinnedOrder，不改變任何連結的順序
         const updatedLinks = links.map(link => {
           if (link.pinned) {
             return { 
@@ -1130,17 +1130,17 @@ function App() {
           return link;
         });
         
-        // 按照pinnedOrder重新排序整个链接数组，确保置顶链接的顺序正确
-        // 同时保持非置顶链接的相对顺序不变
+        // 按照pinnedOrder重新排序整個連結數組，確保置頂連結的順序正確
+        // 同時保持非置頂連結的相對順序不變
         updatedLinks.sort((a, b) => {
-          // 如果都是置顶链接，按照pinnedOrder排序
+          // 如果都是置頂連結，按照pinnedOrder排序
           if (a.pinned && b.pinned) {
             return (a.pinnedOrder || 0) - (b.pinnedOrder || 0);
           }
-          // 如果只有一个是置顶链接，置顶链接排在前面
+          // 如果只有一個是置頂連結，置頂連結排在前面
           if (a.pinned) return -1;
           if (b.pinned) return 1;
-          // 如果都不是置顶链接，保持原位置不变（按照order或createdAt排序）
+          // 如果都不是置頂連結，保持原位置不變（按照order或createdAt排序）
           const aOrder = a.order !== undefined ? a.order : a.createdAt;
           const bOrder = b.order !== undefined ? b.order : b.createdAt;
           return bOrder - aOrder;
@@ -1151,14 +1151,14 @@ function App() {
     }
   };
 
-  // 开始排序
+  // 開始排序
   const startSorting = (categoryId: string) => {
     setIsSortingMode(categoryId);
   };
 
   // 保存排序
   const saveSorting = () => {
-    // 在保存排序时，确保将当前排序后的数据保存到服务器和本地存储
+    // 在保存排序時，確保將當前排序後的數據保存到伺服器和本地儲存
     updateData(links, categories);
     setIsSortingMode(null);
   };
@@ -1168,23 +1168,23 @@ function App() {
     setIsSortingMode(null);
   };
 
-  // 保存置顶链接排序
+  // 保存置頂連結排序
   const savePinnedSorting = () => {
-    // 在保存排序时，确保将当前排序后的数据保存到服务器和本地存储
+    // 在保存排序時，確保將當前排序後的數據保存到伺服器和本地儲存
     updateData(links, categories);
     setIsSortingPinned(false);
   };
 
-  // 取消置顶链接排序
+  // 取消置頂連結排序
   const cancelPinnedSorting = () => {
     setIsSortingPinned(false);
   };
 
-  // 设置dnd-kit的传感器
+  // 設置dnd-kit的感測器
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // 需要拖动8px才开始拖拽，避免误触
+        distance: 8, // 需要拖動8px才開始拖拽，避免誤觸
       },
     }),
     useSensor(KeyboardSensor, {
@@ -1194,7 +1194,7 @@ function App() {
 
   const handleDeleteLink = (id: string) => {
     if (!authToken) { setIsAuthOpen(true); return; }
-    if (confirm('确定删除此链接吗?')) {
+    if (confirm('確定刪除此連結嗎?')) {
       updateData(links.filter(l => l.id !== id), categories);
     }
   };
@@ -1207,8 +1207,8 @@ function App() {
       const linkToToggle = links.find(l => l.id === id);
       if (!linkToToggle) return;
       
-      // 如果是设置为置顶，则设置pinnedOrder为当前置顶链接数量
-      // 如果是取消置顶，则清除pinnedOrder
+      // 如果是設置為置頂，則設置pinnedOrder為當前置頂連結數量
+      // 如果是取消置頂，則清除pinnedOrder
       const updated = links.map(l => {
         if (l.id === id) {
           const isPinned = !l.pinned;
@@ -1282,7 +1282,7 @@ function App() {
       setAiConfig(config);
       localStorage.setItem(AI_CONFIG_KEY, JSON.stringify(config));
       
-      // 同时保存到KV空间
+      // 同時保存到KV空間
       if (authToken) {
           try {
               const response = await fetch('/api/storage', {
@@ -1332,18 +1332,18 @@ function App() {
   const handleDeleteCategory = (catId: string) => {
       if (!authToken) { setIsAuthOpen(true); return; }
       
-      // 防止删除"常用推荐"分类
+      // 防止刪除"常用推薦"分類
       if (catId === 'common') {
-          alert('"常用推荐"分类不能被删除');
+          alert('"常用推薦"分類不能被刪除');
           return;
       }
       
       let newCats = categories.filter(c => c.id !== catId);
       
-      // 检查是否存在"常用推荐"分类，如果不存在则创建它
+      // 檢查是否存在"常用推薦"分類，如果不存在則創建它
       if (!newCats.some(c => c.id === 'common')) {
           newCats = [
-              { id: 'common', name: '常用推荐', icon: 'Star' },
+              { id: 'common', name: '常用推薦', icon: 'Star' },
               ...newCats
           ];
       }
@@ -1361,7 +1361,7 @@ function App() {
       localStorage.setItem(WEBDAV_CONFIG_KEY, JSON.stringify(config));
   };
 
-  // 搜索源选择弹出窗口状态
+  // 搜索源選擇彈出窗口狀態
   const [showSearchSourcePopup, setShowSearchSourcePopup] = useState(false);
   const [hoveredSearchSource, setHoveredSearchSource] = useState<ExternalSearchSource | null>(null);
   const [selectedSearchSource, setSelectedSearchSource] = useState<ExternalSearchSource | null>(null);
@@ -1369,17 +1369,17 @@ function App() {
   const [isPopupHovered, setIsPopupHovered] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // 处理弹出窗口显示/隐藏逻辑
+  // 處理彈出窗口顯示/隱藏邏輯
   useEffect(() => {
     if (isIconHovered || isPopupHovered) {
-      // 如果图标或弹出窗口被悬停，清除隐藏定时器并显示弹出窗口
+      // 如果圖示或彈出窗口被懸停，清除隱藏定時器並顯示彈出窗口
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
         hideTimeoutRef.current = null;
       }
       setShowSearchSourcePopup(true);
     } else {
-      // 如果图标和弹出窗口都没有被悬停，设置一个延迟隐藏弹出窗口
+      // 如果圖示和彈出窗口都沒有被懸停，設置一個延遲隱藏彈出窗口
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
       }
@@ -1389,7 +1389,7 @@ function App() {
       }, 100);
     }
     
-    // 清理函数
+    // 清理函數
     return () => {
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
@@ -1397,12 +1397,12 @@ function App() {
     };
   }, [isIconHovered, isPopupHovered]);
 
-  // 处理搜索源选择
+  // 處理搜索源選擇
   const handleSearchSourceSelect = async (source: ExternalSearchSource) => {
-    // 更新选中的搜索源
+    // 更新選中的搜索源
     setSelectedSearchSource(source);
     
-    // 保存选中的搜索源到KV空间
+    // 保存選中的搜索源到KV空間
     await handleSaveSearchConfig(externalSearchSources, searchMode, source);
     
     if (searchQuery.trim()) {
@@ -1427,13 +1427,13 @@ function App() {
           setSelectedSearchSource(selectedSource);
       }
       
-      // 只保存到KV空间（搜索配置允许无密码访问）
+      // 只保存到KV空間（搜索配置允許無密碼訪問）
       try {
           const headers: Record<string, string> = {
               'Content-Type': 'application/json'
           };
           
-          // 如果有认证令牌，添加认证头
+          // 如果有認證令牌，添加認證頭
           if (authToken) {
               headers['x-auth-password'] = authToken;
           }
@@ -1458,12 +1458,12 @@ function App() {
   const handleSearchModeChange = (mode: SearchMode) => {
       setSearchMode(mode);
       
-      // 如果切换到外部搜索模式且搜索源列表为空，自动加载默认搜索源
+      // 如果切換到外部搜索模式且搜索源列表為空，自動載入默認搜索源
       if (mode === 'external' && externalSearchSources.length === 0) {
           const defaultSources: ExternalSearchSource[] = [
               {
                   id: 'bing',
-                  name: '必应',
+                  name: '必應',
                   url: 'https://www.bing.com/search?q={query}',
                   icon: 'Search',
                   enabled: true,
@@ -1535,7 +1535,7 @@ function App() {
               },
               {
                   id: 'wikipedia',
-                  name: '维基',
+                  name: '維基',
                   url: 'https://zh.wikipedia.org/wiki/Special:Search?search={query}',
                   icon: 'BookOpen',
                   enabled: true,
@@ -1543,7 +1543,7 @@ function App() {
               }
           ];
           
-          // 保存默认搜索源到状态和KV空间
+          // 保存默認搜索源到狀態和KV空間
           handleSaveSearchConfig(defaultSources, mode);
       } else {
           handleSaveSearchConfig(externalSearchSources, mode);
@@ -1552,12 +1552,12 @@ function App() {
 
   const handleExternalSearch = () => {
       if (searchQuery.trim() && searchMode === 'external') {
-          // 如果搜索源列表为空，自动加载默认搜索源
+          // 如果搜索源列表為空，自動載入默認搜索源
           if (externalSearchSources.length === 0) {
               const defaultSources: ExternalSearchSource[] = [
                   {
                       id: 'bing',
-                      name: '必应',
+                      name: '必應',
                       url: 'https://www.bing.com/search?q={query}',
                       icon: 'Search',
                       enabled: true,
@@ -1629,7 +1629,7 @@ function App() {
                   },
                   {
                       id: 'wikipedia',
-                      name: '维基',
+                      name: '維基',
                       url: 'https://zh.wikipedia.org/wiki/Special:Search?search={query}',
                       icon: 'BookOpen',
                       enabled: true,
@@ -1637,16 +1637,16 @@ function App() {
                   }
               ];
               
-              // 保存默认搜索源到状态和KV空间
+              // 保存默認搜索源到狀態和KV空間
               handleSaveSearchConfig(defaultSources, 'external');
               
-              // 使用第一个默认搜索源立即执行搜索
+              // 使用第一個默認搜索源立即執行搜索
               const searchUrl = defaultSources[0].url.replace('{query}', encodeURIComponent(searchQuery));
               window.open(searchUrl, '_blank');
               return;
           }
           
-          // 如果有选中的搜索源，使用选中的搜索源；否则使用第一个启用的搜索源
+          // 如果有選中的搜索源，使用選中的搜索源；否則使用第一個啟用的搜索源
           let source = selectedSearchSource;
           if (!source) {
               const enabledSources = externalSearchSources.filter(s => s.enabled);
@@ -1683,16 +1683,16 @@ function App() {
   const pinnedLinks = useMemo(() => {
       // Don't show pinned links if they belong to a locked category
       const filteredPinnedLinks = links.filter(l => l.pinned && !isCategoryLocked(l.categoryId));
-      // 按照pinnedOrder字段排序，如果没有pinnedOrder字段则按创建时间排序
+      // 按照pinnedOrder欄位排序，如果沒有pinnedOrder欄位則按創建時間排序
       return filteredPinnedLinks.sort((a, b) => {
-        // 如果有pinnedOrder字段，则使用pinnedOrder排序
+        // 如果有pinnedOrder欄位，則使用pinnedOrder排序
         if (a.pinnedOrder !== undefined && b.pinnedOrder !== undefined) {
           return a.pinnedOrder - b.pinnedOrder;
         }
-        // 如果只有一个有pinnedOrder字段，有pinnedOrder的排在前面
+        // 如果只有一個有pinnedOrder欄位，有pinnedOrder的排在前面
         if (a.pinnedOrder !== undefined) return -1;
         if (b.pinnedOrder !== undefined) return 1;
-        // 如果都没有pinnedOrder字段，则按创建时间排序
+        // 如果都沒有pinnedOrder欄位，則按創建時間排序
         return a.createdAt - b.createdAt;
       });
   }, [links, categories, unlockedCategoryIds]);
@@ -1718,18 +1718,18 @@ function App() {
       result = result.filter(l => l.categoryId === selectedCategory);
     }
     
-    // 按照order字段排序，如果没有order字段则按创建时间排序
-    // 修改排序逻辑：order值越大排在越前面，新增的卡片order值最大，会排在最前面
-    // 我们需要反转这个排序，让新增的卡片(order值最大)排在最后面
+    // 按照order欄位排序，如果沒有order欄位則按創建時間排序
+    // 修改排序邏輯：order值越大排在越前面，新增的卡片order值最大，會排在最前面
+    // 我們需要反轉這個排序，讓新增的卡片(order值最大)排在最後面
     return result.sort((a, b) => {
       const aOrder = a.order !== undefined ? a.order : a.createdAt;
       const bOrder = b.order !== undefined ? b.order : b.createdAt;
-      // 改为升序排序，这样order值小(旧卡片)的排在前面，order值大(新卡片)的排在后面
+      // 改為升序排序，這樣order值小(舊卡片)的排在前面，order值大(新卡片)的排在後面
       return aOrder - bOrder;
     });
   }, [links, selectedCategory, searchQuery, categories, unlockedCategoryIds]);
 
-  // 计算其他目录的搜索结果
+  // 計算其他目錄的搜索結果
   const otherCategoryResults = useMemo(() => {
     if (!searchQuery.trim() || selectedCategory === 'all') {
       return [];
@@ -1737,14 +1737,14 @@ function App() {
 
     const q = searchQuery.toLowerCase();
     
-    // 获取其他目录中匹配的链接
+    // 獲取其他目錄中匹配的連結
     const otherLinks = links.filter(link => {
-      // 排除当前目录的链接
+      // 排除當前目錄的連結
       if (link.categoryId === selectedCategory) {
         return false;
       }
       
-      // 排除锁定的目录
+      // 排除鎖定的目錄
       if (isCategoryLocked(link.categoryId)) {
         return false;
       }
@@ -1757,7 +1757,7 @@ function App() {
       );
     });
 
-    // 按目录分组
+    // 按目錄分組
     const groupedByCategory = otherLinks.reduce((acc, link) => {
       if (!acc[link.categoryId]) {
         acc[link.categoryId] = [];
@@ -1766,7 +1766,7 @@ function App() {
       return acc;
     }, {} as Record<string, LinkItem[]>);
 
-    // 对每个目录内的链接进行排序
+    // 對每個目錄內的連結進行排序
     Object.keys(groupedByCategory).forEach(categoryId => {
       groupedByCategory[categoryId].sort((a, b) => {
         const aOrder = a.order !== undefined ? a.order : a.createdAt;
@@ -1781,7 +1781,7 @@ function App() {
 
   // --- Render Components ---
 
-  // 创建可排序的链接卡片组件
+  // 創建可排序的連結卡片組件
   const SortableLinkCard = ({ link }: { link: LinkItem }) => {
     const {
       attributes,
@@ -1792,7 +1792,7 @@ function App() {
       isDragging,
     } = useSortable({ id: link.id });
     
-    // 根据视图模式决定卡片样式
+    // 根據視圖模式決定卡片樣式
     const isDetailedView = siteSettings.cardStyle === 'detailed';
     
     const style = {
@@ -1818,11 +1818,11 @@ function App() {
         {...attributes}
         {...listeners}
       >
-        {/* 链接内容 - 移除a标签，改为div防止点击跳转 */}
+        {/* 連結內容 - 移除a標籤，改為div防止點擊跳轉 */}
         <div className={`flex flex-1 min-w-0 overflow-hidden ${
           isDetailedView ? 'flex-col' : 'items-center gap-3'
         }`}>
-          {/* 第一行：图标和标题水平排列 */}
+          {/* 第一行：圖示和標題水平排列 */}
           <div className={`flex items-center gap-3 mb-2 ${
             isDetailedView ? '' : 'w-full'
           }`}>
@@ -1833,7 +1833,7 @@ function App() {
                 {link.icon ? <img src={link.icon} alt="" className="w-5 h-5"/> : link.title.charAt(0)}
             </div>
             
-            {/* 标题 */}
+            {/* 標題 */}
             <h3 className={`text-slate-900 dark:text-slate-100 truncate overflow-hidden text-ellipsis ${
               isDetailedView ? 'text-base' : 'text-sm font-medium text-slate-800 dark:text-slate-200'
             }`} title={link.title}>
@@ -1855,7 +1855,7 @@ function App() {
   const renderLinkCard = (link: LinkItem) => {
     const isSelected = selectedLinks.has(link.id);
     
-    // 根据视图模式决定卡片样式
+    // 根據視圖模式決定卡片樣式
     const isDetailedView = siteSettings.cardStyle === 'detailed';
     
     return (
@@ -1873,12 +1873,12 @@ function App() {
         onClick={() => isBatchEditMode && toggleLinkSelection(link.id)}
         onContextMenu={(e) => handleContextMenu(e, link)}
       >
-        {/* 链接内容 - 在批量编辑模式下不使用a标签 */}
+        {/* 連結內容 - 在批次編輯模式下不使用a標籤 */}
         {isBatchEditMode ? (
           <div className={`flex flex-1 min-w-0 overflow-hidden h-full ${
             isDetailedView ? 'flex-col' : 'items-center'
           }`}>
-            {/* 第一行：图标和标题水平排列 */}
+            {/* 第一行：圖示和標題水平排列 */}
             <div className={`flex items-center gap-3 w-full`}>
               {/* Icon */}
               <div className={`text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-bold uppercase shrink-0 ${
@@ -1887,7 +1887,7 @@ function App() {
                   {link.icon ? <img src={link.icon} alt="" className="w-5 h-5"/> : link.title.charAt(0)}
               </div>
               
-              {/* 标题 */}
+              {/* 標題 */}
               <h3 className={`text-slate-900 dark:text-slate-100 truncate overflow-hidden text-ellipsis ${
                 isDetailedView ? 'text-base' : 'text-sm font-medium text-slate-800 dark:text-slate-200'
               }`} title={link.title}>
@@ -1910,9 +1910,9 @@ function App() {
             className={`flex flex-1 min-w-0 overflow-hidden h-full ${
               isDetailedView ? 'flex-col' : 'items-center'
             }`}
-            title={isDetailedView ? link.url : (link.description || link.url)} // 详情版视图只显示URL作为tooltip
+            title={isDetailedView ? link.url : (link.description || link.url)} // 詳情版視圖只顯示URL作為tooltip
           >
-            {/* 第一行：图标和标题水平排列 */}
+            {/* 第一行：圖示和標題水平排列 */}
             <div className={`flex items-center gap-3 w-full`}>
               {/* Icon */}
               <div className={`text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm font-bold uppercase shrink-0 ${
@@ -1921,7 +1921,7 @@ function App() {
                   {link.icon ? <img src={link.icon} alt="" className="w-5 h-5"/> : link.title.charAt(0)}
               </div>
               
-              {/* 标题 */}
+              {/* 標題 */}
                 <h3 className={`text-slate-800 dark:text-slate-200 truncate whitespace-nowrap overflow-hidden text-ellipsis group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors ${
                   isDetailedView ? 'text-base' : 'text-sm font-medium'
                 }`} title={link.title}>
@@ -1943,7 +1943,7 @@ function App() {
           </a>
         )}
 
-        {/* Hover Actions (Absolute Right) - 在批量编辑模式下隐藏 */}
+        {/* Hover Actions (Absolute Right) - 在批次編輯模式下隱藏 */}
         {!isBatchEditMode && (
           <div className={`flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity bg-blue-50 dark:bg-blue-900/20 backdrop-blur-sm rounded-md p-1 absolute ${
             isDetailedView ? 'top-3 right-3' : 'top-1/2 -translate-y-1/2 right-2'
@@ -1951,7 +1951,7 @@ function App() {
               <button 
                   onClick={(e) => { e.preventDefault(); e.stopPropagation(); setEditingLink(link); setIsModalOpen(true); }}
                   className="p-1 text-slate-400 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-md"
-                  title="编辑"
+                  title="編輯"
               >
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12A3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97c0-.33-.03-.65-.07-.97l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.08-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.32-.07.64-.07.97c0 .33.03.65.07.97l-2.11 1.63c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.39 1.06.73 1.69.98l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.25 1.17-.59 1.69-.98l2.49 1c.22.08.49 0 .61-.22l2-3.46c.13-.22.07-.49-.12-.64l-2.11-1.63Z" fill="currentColor"/>
@@ -1965,7 +1965,7 @@ function App() {
 
   return (
     <div className="flex h-screen overflow-hidden text-slate-900 dark:text-slate-50">
-      {/* 认证遮罩层 - 当需要认证时显示 */}
+      {/* 認證遮罩層 - 當需要認證時顯示 */}
       {requiresAuth && !authToken && (
         <div className="fixed inset-0 z-50 bg-white dark:bg-slate-900 flex items-center justify-center">
           <div className="w-full max-w-md p-6">
@@ -1974,10 +1974,10 @@ function App() {
                 <Lock className="w-8 h-8 text-blue-600 dark:text-blue-400" />
               </div>
               <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-50 mb-2">
-                需要身份验证
+                需要身份驗證
               </h1>
               <p className="text-slate-600 dark:text-slate-400">
-                此导航页面设置了访问密码，请输入密码以继续访问
+                此導航頁面設置了訪問密碼，請輸入密碼以繼續訪問
               </p>
             </div>
             <AuthModal isOpen={true} onLogin={handleLogin} />
@@ -1985,7 +1985,7 @@ function App() {
         </div>
       )}
       
-      {/* 主要内容 - 只有在不需要认证或已认证时显示 */}
+      {/* 主要內容 - 只有在不需要認證或已認證時顯示 */}
       {(!requiresAuth || authToken) && (
         <>
           <AuthModal isOpen={isAuthOpen} onLogin={handleLogin} />
@@ -2083,15 +2083,15 @@ function App() {
               }`}
             >
               <div className="p-1"><Icon name="LayoutGrid" size={18} /></div>
-              <span>置顶网站</span>
+              <span>置頂網站</span>
             </button>
             
             <div className="flex items-center justify-between pt-4 pb-2 px-4">
-               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">分类目录</span>
+               <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">分類目錄</span>
                <button 
                   onClick={() => { if(!authToken) setIsAuthOpen(true); else setIsCatManagerOpen(true); }}
                   className="p-1 text-slate-400 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700 rounded"
-                  title="管理分类"
+                  title="管理分類"
                >
                   <Settings size={14} />
                </button>
@@ -2126,28 +2126,28 @@ function App() {
                 <button 
                     onClick={() => { if(!authToken) setIsAuthOpen(true); else setIsImportModalOpen(true); }}
                     className="flex flex-col items-center justify-center gap-1 p-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 transition-all"
-                    title="导入书签"
+                    title="導入書籤"
                 >
                     <Upload size={14} />
-                    <span>导入</span>
+                    <span>導入</span>
                 </button>
                 
                 <button 
                     onClick={() => { if(!authToken) setIsAuthOpen(true); else setIsBackupModalOpen(true); }}
                     className="flex flex-col items-center justify-center gap-1 p-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 transition-all"
-                    title="备份与恢复"
+                    title="備份與恢復"
                 >
                     <CloudCog size={14} />
-                    <span>备份</span>
+                    <span>備份</span>
                 </button>
 
                 <button 
                     onClick={() => setIsSettingsModalOpen(true)}
                     className="flex flex-col items-center justify-center gap-1 p-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 rounded-lg border border-slate-200 dark:border-slate-600 transition-all"
-                    title="AI 设置"
+                    title="AI 設置"
                 >
                     <Settings size={14} />
-                    <span>设置</span>
+                    <span>設置</span>
                 </button>
             </div>
             
@@ -2156,7 +2156,7 @@ function App() {
                  {syncStatus === 'saving' && <Loader2 className="animate-spin w-3 h-3 text-blue-500" />}
                  {syncStatus === 'saved' && <CheckCircle2 className="w-3 h-3 text-green-500" />}
                  {syncStatus === 'error' && <AlertCircle className="w-3 h-3 text-red-500" />}
-                 {authToken ? <span className="text-green-600">已同步</span> : <span className="text-amber-500">离线</span>}
+                 {authToken ? <span className="text-green-600">已同步</span> : <span className="text-amber-500">離線</span>}
                </div>
 
                <a 
@@ -2167,7 +2167,7 @@ function App() {
                  title="Fork this project on GitHub"
                >
                  <GitFork size={14} />
-                 <span>Fork 项目 v1.7.1</span>
+                 <span>Fork 項目 v1.7.1</span>
                </a>
             </div>
         </div>
@@ -2183,13 +2183,13 @@ function App() {
               <Menu size={24} />
             </button>
 
-            {/* 搜索模式切换 + 搜索框 */}
+            {/* 搜索模式切換 + 搜索框 */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
-              {/* 移动端搜索图标 - 仅在手机端显示，平板端隐藏 */}
+              {/* 行動端搜索圖示 - 僅在手機端顯示，平板端隱藏 */}
               <button 
                 onClick={() => {
                   setIsMobileSearchOpen(!isMobileSearchOpen);
-                  // 手机端点击搜索图标时默认使用站外搜索
+                  // 手機端點擊搜索圖示時預設使用站外搜索
                   if (searchMode !== 'external') {
                     handleSearchModeChange('external');
                   }
@@ -2200,7 +2200,7 @@ function App() {
                 <Search size={20} />
               </button>
 
-              {/* 搜索模式切换 - 平板端和桌面端显示，手机端隐藏 */}
+              {/* 搜索模式切換 - 平板端和桌面端顯示，手機端隱藏 */}
               <div className="hidden sm:hidden md:flex lg:flex items-center gap-2 flex-shrink-0">
                 <div className="flex items-center bg-slate-100 dark:bg-slate-700 rounded-full p-1">
                   <button
@@ -2210,9 +2210,9 @@ function App() {
                         ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-blue-400 shadow-sm'
                         : 'text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100'
                     }`}
-                    title="站内搜索"
+                    title="站內搜索"
                   >
-                    站内
+                    站內
                   </button>
                   <button
                     onClick={() => handleSearchModeChange('external')}
@@ -2227,7 +2227,7 @@ function App() {
                   </button>
                 </div>
                 
-                {/* 搜索配置管理按钮 */}
+                {/* 搜索配置管理按鈕 */}
                 {searchMode === 'external' && (
                   <button
                     onClick={() => setIsSearchConfigModalOpen(true)}
@@ -2241,7 +2241,7 @@ function App() {
 
               {/* 搜索框 */}
               <div className={`relative w-full max-w-lg ${isMobileSearchOpen ? 'block' : 'hidden'} sm:block`}>
-                {/* 搜索源选择弹出窗口 */}
+                {/* 搜索源選擇彈出窗口 */}
                 {searchMode === 'external' && showSearchSourcePopup && (
                   <div 
                     className="absolute left-0 top-full mt-2 w-full bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 p-3 z-50"
@@ -2275,13 +2275,13 @@ function App() {
                   </div>
                 )}
                 
-                {/* 搜索图标 */}
+                {/* 搜索圖示 */}
                 <div 
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 cursor-pointer"
                   onMouseEnter={() => searchMode === 'external' && setIsIconHovered(true)}
                   onMouseLeave={() => setIsIconHovered(false)}
                   onClick={() => {
-                    // 移动端点击事件：显示搜索源选择窗口
+                    // 移動端點擊事件：顯示搜索源選擇窗口
                     if (searchMode === 'external') {
                       setShowSearchSourcePopup(!showSearchSourcePopup);
                     }
@@ -2311,10 +2311,10 @@ function App() {
                   type="text"
                   placeholder={
                     searchMode === 'internal' 
-                      ? "搜索站内内容..." 
+                      ? "搜索站內內容..." 
                       : selectedSearchSource 
-                        ? `在${selectedSearchSource.name}搜索内容` 
-                        : "搜索站外内容..."
+                        ? `在${selectedSearchSource.name}搜索內容` 
+                        : "搜索站外內容..."
                   }
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -2324,7 +2324,7 @@ function App() {
                     }
                   }}
                   className="w-full pl-9 pr-4 py-2 rounded-full bg-slate-100 dark:bg-slate-700/50 border-none text-sm focus:ring-2 focus:ring-blue-500 dark:text-white placeholder-slate-400 outline-none transition-all"
-                  // 移动端优化：防止页面缩放
+                  // 行動端最佳化：防止頁面縮放
                   style={{ fontSize: '16px' }}
                   inputMode="search"
                   enterKeyHint="search"
@@ -2334,7 +2334,7 @@ function App() {
                   <button
                     onClick={handleExternalSearch}
                     className="absolute right-10 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-blue-500"
-                    title="执行站外搜索"
+                    title="執行站外搜索"
                   >
                     <ExternalLink size={14} />
                   </button>
@@ -2354,7 +2354,7 @@ function App() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* 视图切换控制器 - 移动端：搜索框展开时隐藏，桌面端始终显示 */}
+            {/* 視圖切換控制器 - 行動端：搜索框展開時隱藏，桌面端始終顯示 */}
             <div className={`${isMobileSearchOpen ? 'hidden' : 'flex'} lg:flex items-center bg-slate-100 dark:bg-slate-700 rounded-full p-1`}>
               <button
                 onClick={() => handleViewModeChange('simple')}
@@ -2363,9 +2363,9 @@ function App() {
                     ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-blue-400 shadow-sm'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100'
                 }`}
-                title="简约版视图"
+                title="簡約版視圖"
               >
-                简约
+                簡約
               </button>
               <button
                 onClick={() => handleViewModeChange('detailed')}
@@ -2374,22 +2374,22 @@ function App() {
                     ? 'bg-white dark:bg-slate-600 text-blue-600 dark:text-blue-400 shadow-sm'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-800 dark:hover:text-slate-100'
                 }`}
-                title="详情版视图"
+                title="詳情版視圖"
               >
-                详情
+                詳情
               </button>
             </div>
 
-            {/* 主题切换按钮 - 移动端：搜索框展开时隐藏，桌面端始终显示 */}
+            {/* 主題切換按鈕 - 行動端：搜索框展開時隱藏，桌面端始終顯示 */}
             <button onClick={toggleTheme} className={`${isMobileSearchOpen ? 'hidden' : 'flex'} lg:flex p-2 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700`}>
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
-            {/* 登录/退出按钮 - 移动端：搜索框展开时隐藏，桌面端始终显示 */}
+            {/* 登入/退出按鈕 - 行動端：搜索框展開時隱藏，桌面端始終顯示 */}
             <div className={`${isMobileSearchOpen ? 'hidden' : 'flex'}`}>
               {!authToken ? (
                   <button onClick={() => setIsAuthOpen(true)} className="flex items-center gap-2 bg-slate-200 dark:bg-slate-700 px-3 py-1.5 rounded-full text-xs font-medium">
-                      <Cloud size={14} /> <span className="hidden sm:inline">登录</span>
+                      <Cloud size={14} /> <span className="hidden sm:inline">登錄</span>
                   </button>
               ) : (
                   <button onClick={handleLogout} className="flex items-center gap-2 bg-slate-200 dark:bg-slate-700 px-3 py-1.5 rounded-full text-xs font-medium">
@@ -2398,7 +2398,7 @@ function App() {
               )}
             </div>
 
-            {/* 添加按钮 - 移动端：搜索框展开时隐藏，桌面端始终显示 */}
+            {/* 添加按鈕 - 行動端：搜索框展開時隱藏，桌面端始終顯示 */}
             <div className={`${isMobileSearchOpen ? 'hidden' : 'flex'}`}>
               <button
                 onClick={() => { if(!authToken) setIsAuthOpen(true); else { setEditingLink(undefined); setIsModalOpen(true); }}}
@@ -2420,7 +2420,7 @@ function App() {
                         <div className="flex items-center gap-2">
                             <Pin size={16} className="text-blue-500 fill-blue-500" />
                             <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                                置顶 / 常用
+                                置頂 / 常用
                             </h2>
                             <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 rounded-full">
                                 {pinnedLinks.length}
@@ -2431,10 +2431,10 @@ function App() {
                                 <button 
                                     onClick={savePinnedSorting}
                                     className="flex items-center gap-1 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-full transition-colors"
-                                    title="保存顺序"
+                                    title="保存順序"
                                 >
                                     <Save size={14} />
-                                    <span>保存顺序</span>
+                                    <span>保存順序</span>
                                 </button>
                                 <button 
                                     onClick={cancelPinnedSorting}
@@ -2496,7 +2496,7 @@ function App() {
                          <div>
                             <h1 className="text-xl font-bold">早安 👋</h1>
                             <p className="text-sm opacity-90 mt-1">
-                                {links.length} 个链接 · {categories.length} 个分类
+                                {links.length} 個連結 · {categories.length} 個分類
                             </p>
                          </div>
                          <Icon name="Compass" size={48} className="opacity-20" />
@@ -2506,7 +2506,7 @@ function App() {
                  <div className="flex items-center justify-between mb-4">
                      <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
                          {selectedCategory === 'all' 
-                            ? (searchQuery ? '搜索结果' : '所有链接') 
+                            ? (searchQuery ? '搜索結果' : '所有連結') 
                             : (
                                 <>
                                     {categories.find(c => c.id === selectedCategory)?.name}
@@ -2524,10 +2524,10 @@ function App() {
                                  <button 
                                      onClick={saveSorting}
                                      className="flex items-center gap-1 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-full transition-colors"
-                                     title="保存顺序"
+                                     title="保存順序"
                                  >
                                      <Save size={14} />
-                                     <span>保存顺序</span>
+                                     <span>保存順序</span>
                                  </button>
                                  <button 
                                      onClick={cancelSorting}
@@ -2546,35 +2546,35 @@ function App() {
                                              ? 'bg-red-600 hover:bg-red-700' 
                                              : 'bg-blue-600 hover:bg-blue-700'
                                      }`}
-                                     title={isBatchEditMode ? "退出批量编辑" : "批量编辑"}
+                                     title={isBatchEditMode ? "退出批次編輯" : "批次編輯"}
                                  >
-                                     {isBatchEditMode ? '取消' : '批量编辑'}
+                                     {isBatchEditMode ? '取消' : '批次編輯'}
                                  </button>
                                  {isBatchEditMode ? (
                                      <>
                                          <button 
                                              onClick={handleBatchDelete}
                                              className="flex items-center gap-1 px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded-full transition-colors"
-                                             title="批量删除"
+                                             title="批次刪除"
                                          >
                                              <Trash2 size={14} />
-                                             <span>批量删除</span>
+                                             <span>批次刪除</span>
                                          </button>
                                          <button 
                                              onClick={handleSelectAll}
                                              className="flex items-center gap-1 px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded-full transition-colors"
-                                             title="全选/取消全选"
+                                             title="全選/取消全選"
                                          >
                                              <CheckSquare size={14} />
-                                             <span>{selectedLinks.size === displayedLinks.length ? '取消全选' : '全选'}</span>
+                                             <span>{selectedLinks.size === displayedLinks.length ? '取消全選' : '全選'}</span>
                                          </button>
                                          <div className="relative group">
                                               <button 
                                                   className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-full transition-colors"
-                                                  title="批量移动"
+                                                  title="批次移動"
                                               >
                                                   <Upload size={14} />
-                                                  <span>批量移动</span>
+                                                  <span>批次移動</span>
                                               </button>
                                               <div className="absolute top-full right-0 mt-1 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 z-20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                                                   {categories.filter(cat => cat.id !== selectedCategory).map(cat => (
@@ -2609,15 +2609,15 @@ function App() {
                         {isCategoryLocked(selectedCategory) ? (
                             <>
                                 <Lock size={40} className="text-amber-400 mb-4" />
-                                <p>该目录已锁定</p>
-                                <button onClick={() => setCatAuthModalData(categories.find(c => c.id === selectedCategory) || null)} className="mt-4 px-4 py-2 bg-amber-500 text-white rounded-lg">输入密码解锁</button>
+                                <p>該目錄已鎖定</p>
+                                <button onClick={() => setCatAuthModalData(categories.find(c => c.id === selectedCategory) || null)} className="mt-4 px-4 py-2 bg-amber-500 text-white rounded-lg">輸入密碼解鎖</button>
                             </>
                         ) : (
                             <>
                                 <Search size={40} className="opacity-30 mb-4" />
-                                <p>没有找到相关内容</p>
+                                <p>沒有找到相關內容</p>
                                 {selectedCategory !== 'all' && (
-                                    <button onClick={() => setIsModalOpen(true)} className="mt-4 text-blue-500 hover:underline">添加一个?</button>
+                                    <button onClick={() => setIsModalOpen(true)} className="mt-4 text-blue-500 hover:underline">添加一個?</button>
                                 )}
                             </>
                         )}
@@ -2657,7 +2657,7 @@ function App() {
             </section>
             )}
 
-            {/* 其他目录搜索结果区域 */}
+            {/* 其他目錄搜索結果區域 */}
             {searchQuery.trim() && selectedCategory !== 'all' && (
               <section className="mt-8 pt-8 border-t-2 border-slate-200 dark:border-slate-700">
                 <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2 mb-4">
@@ -2666,7 +2666,7 @@ function App() {
                     <path d="m21 21-4.35-4.35"></path>
                     <path d="M11 11h.01"></path>
                   </svg>
-                  其他目录搜索结果
+                  其他目錄搜索結果
                   <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 rounded-full">
                     {Object.values(otherCategoryResults).flat().length}
                   </span>
@@ -2704,7 +2704,7 @@ function App() {
                       <circle cx="11" cy="11" r="8"></circle>
                       <path d="m21 21-4.35-4.35"></path>
                     </svg>
-                    <p className="text-sm">其他目录中没有找到相关内容</p>
+                    <p className="text-sm">其他目錄中沒有找到相關內容</p>
                   </div>
                 )}
               </section>
@@ -2723,7 +2723,7 @@ function App() {
             defaultCategoryId={selectedCategory !== 'all' ? selectedCategory : undefined}
           />
 
-          {/* 右键菜单 */}
+          {/* 右鍵菜單 */}
           <ContextMenu
             isOpen={contextMenu.isOpen}
             position={contextMenu.position}
@@ -2735,7 +2735,7 @@ function App() {
             onTogglePin={togglePinFromContextMenu}
           />
 
-          {/* 二维码模态框 */}
+          {/* 二維碼模態框 */}
           <QRCodeModal
             isOpen={qrCodeModal.isOpen}
             url={qrCodeModal.url || ''}
@@ -2749,4 +2749,3 @@ function App() {
 }
 
 export default App;
-

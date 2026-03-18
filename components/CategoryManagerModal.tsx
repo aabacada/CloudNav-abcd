@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { X, ArrowUp, ArrowDown, Trash2, Edit2, Plus, Check, Lock, Unlock, Palette } from 'lucide-react';
 import { Category } from '../types';
 import Icon from './Icon';
@@ -34,7 +34,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
   const [isIconSelectorOpen, setIsIconSelectorOpen] = useState(false);
   const [iconSelectorTarget, setIconSelectorTarget] = useState<'edit' | 'new' | null>(null);
   
-  // 分类操作验证相关状态
+  // 分類操作驗證相關狀態
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState<{
     type: 'edit' | 'delete';
@@ -54,9 +54,9 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
     onUpdateCategories(newCats);
   };
 
-  // 处理密码验证
+  // 處理密碼驗證
   const handlePasswordVerification = async (password: string): Promise<boolean> => {
-    if (!onVerifyPassword) return true; // 如果没有提供验证函数，默认通过
+    if (!onVerifyPassword) return true; // 如果沒有提供驗證函數，默認通過
     
     try {
       const isValid = await onVerifyPassword(password);
@@ -67,47 +67,47 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
     }
   };
 
-  // 处理编辑分类前的验证
+  // 處理編輯分類前的驗證
   const handleStartEdit = (cat: Category) => {
     if (!onVerifyPassword) {
-      // 如果没有提供验证函数，直接编辑
+      // 如果沒有提供驗證函數，直接編輯
       startEdit(cat);
       return;
     }
 
-    // 设置待处理的操作
+    // 設置待處理的操作
     setPendingAction({
       type: 'edit',
       categoryId: cat.id,
       categoryName: cat.name
     });
     
-    // 打开验证弹窗
+    // 打開驗證彈出視窗
     setIsAuthModalOpen(true);
   };
 
-  // 处理删除分类前的验证
+  // 處理刪除分類前的驗證
   const handleDeleteClick = (cat: Category) => {
     if (!onVerifyPassword) {
-      // 如果没有提供验证函数，直接删除
-      if (confirm(`确定删除"${cat.name}"分类吗？该分类下的书签将移动到"常用推荐"。`)) {
+      // 如果沒有提供驗證函數，直接刪除
+      if (confirm(`確定刪除"${cat.name}"分類嗎？該分類下的書籤將移動到"常用推薦"。`)) {
         onDeleteCategory(cat.id);
       }
       return;
     }
 
-    // 设置待处理的操作
+    // 設置待處理的操作
     setPendingAction({
       type: 'delete',
       categoryId: cat.id,
       categoryName: cat.name
     });
     
-    // 打开验证弹窗
+    // 打開驗證彈出視窗
     setIsAuthModalOpen(true);
   };
 
-  // 处理验证成功后的操作
+  // 處理驗證成功後的操作
   const handleAuthSuccess = () => {
     if (!pendingAction) return;
 
@@ -118,16 +118,16 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
       }
     } else if (pendingAction.type === 'delete') {
       const cat = categories.find(c => c.id === pendingAction.categoryId);
-      if (cat && confirm(`确定删除"${cat.name}"分类吗？该分类下的书签将移动到"常用推荐"。`)) {
+      if (cat && confirm(`確定刪除"${cat.name}"分類嗎？該分類下的書籤將移動到"常用推薦"。`)) {
         onDeleteCategory(cat.id);
       }
     }
 
-    // 清除待处理的操作
+    // 清除待處理的操作
     setPendingAction(null);
   };
 
-  // 处理验证弹窗关闭
+  // 處理驗證彈出視窗關閉
   const handleAuthModalClose = () => {
     setIsAuthModalOpen(false);
     setPendingAction(null);
@@ -194,7 +194,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-slate-200 dark:border-slate-700 flex flex-col max-h-[85vh]">
         <div className="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
-          <h3 className="text-lg font-semibold dark:text-white">分类管理</h3>
+          <h3 className="text-lg font-semibold dark:text-white">分類管理</h3>
           <button onClick={onClose} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
             <X className="w-5 h-5 dark:text-slate-400" />
           </button>
@@ -232,14 +232,14 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                             value={editName}
                             onChange={(e) => setEditName(e.target.value)}
                             className="flex-1 p-1.5 px-2 text-sm rounded border border-blue-500 dark:bg-slate-800 dark:text-white outline-none"
-                            placeholder="分类名称"
+                            placeholder="分類名稱"
                             autoFocus
                           />
                           <button
                             type="button"
                             className="p-1 text-slate-400 hover:text-blue-600 transition-colors"
                             onClick={() => openIconSelector('edit')}
-                            title="选择图标"
+                            title="選擇圖示"
                           >
                             <Palette size={16} />
                           </button>
@@ -251,7 +251,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                             value={editPassword}
                             onChange={(e) => setEditPassword(e.target.value)}
                             className="flex-1 p-1.5 px-2 text-sm rounded border border-blue-500 dark:bg-slate-800 dark:text-white outline-none"
-                            placeholder="密码（可选）"
+                            placeholder="密碼（可選）"
                           />
                         </div>
                       </div>
@@ -261,7 +261,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                         <span className="font-medium dark:text-slate-200 truncate">
                           {cat.name}
                           {cat.id === 'common' && (
-                            <span className="ml-2 text-xs text-slate-400">(默认分类，不可编辑)</span>
+                            <span className="ml-2 text-xs text-slate-400">(預設分類，不可編輯)</span>
                           )}
                         </span>
                         {cat.password && (
@@ -282,7 +282,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                               <Edit2 size={14} />
                           </button>
                         )}
-                        {/* 只有非"常用推荐"分类才显示删除按钮 */}
+                        {/* 只有非"常用推薦"分類才顯示刪除按鈕 */}
                         {cat.id !== 'common' && (
                             <button 
                             onClick={() => handleDeleteClick(cat)}
@@ -291,9 +291,9 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                             <Trash2 size={14} />
                             </button>
                         )}
-                        {/* "常用推荐"分类显示锁定图标 */}
+                        {/* "常用推薦"分類顯示鎖定圖示 */}
                         {cat.id === 'common' && (
-                            <div className="p-1.5 text-slate-300" title="常用推荐分类不能被删除">
+                            <div className="p-1.5 text-slate-300" title="常用推薦分類不能被刪除">
                                 <Lock size={14} />
                             </div>
                         )}
@@ -306,7 +306,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
         </div>
 
         <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
-           <label className="text-xs font-semibold text-slate-500 uppercase mb-2 block">添加新分类</label>
+           <label className="text-xs font-semibold text-slate-500 uppercase mb-2 block">添加新分類</label>
            <div className="flex flex-col gap-2">
              <div className="flex items-center gap-2">
                <Icon name={newCatIcon} size={16} />
@@ -314,14 +314,14 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                   type="text"
                   value={newCatName}
                   onChange={(e) => setNewCatName(e.target.value)}
-                  placeholder="分类名称"
+                  placeholder="分類名稱"
                   className="flex-1 p-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                />
                <button
                  type="button"
                  className="p-1 text-gray-500 hover:text-blue-600 transition-colors"
                  onClick={() => openIconSelector('new')}
-                 title="选择图标"
+                 title="選擇圖示"
                >
                  <Palette size={16} />
                </button>
@@ -333,7 +333,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
                         type="text"
                         value={newCatPassword}
                         onChange={(e) => setNewCatPassword(e.target.value)}
-                        placeholder="密码 (可选)"
+                        placeholder="密碼 (可選)"
                         className="w-full pl-8 p-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                         onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
                     />
@@ -348,12 +348,12 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
              </div>
            </div>
           
-          {/* 图标选择器弹窗 */}
+          {/* 圖示選擇器彈出視窗 */}
           {isIconSelectorOpen && (
             <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
               <div className="bg-white dark:bg-slate-800 rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
                 <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
-                  <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">选择图标</h3>
+                  <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">選擇圖示</h3>
                   <button
                     type="button"
                     onClick={cancelIconSelector}
@@ -375,7 +375,7 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
             </div>
           )}
           
-          {/* 分类操作密码验证弹窗 */}
+          {/* 分類操作密碼驗證彈出視窗 */}
           {isAuthModalOpen && pendingAction && (
             <CategoryActionAuthModal
               isOpen={isAuthModalOpen}
@@ -391,5 +391,4 @@ const CategoryManagerModal: React.FC<CategoryManagerModalProps> = ({
     </div>
   );
 };
-
 export default CategoryManagerModal;

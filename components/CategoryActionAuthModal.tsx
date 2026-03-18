@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { X, Lock, AlertCircle } from 'lucide-react';
 
 interface CategoryActionAuthModalProps {
@@ -27,7 +27,7 @@ const CategoryActionAuthModal: React.FC<CategoryActionAuthModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!password.trim()) {
-      setError('请输入密码');
+      setError('請輸入密碼');
       return;
     }
 
@@ -40,10 +40,10 @@ const CategoryActionAuthModal: React.FC<CategoryActionAuthModalProps> = ({
         setPassword('');
         onVerified();
       } else {
-        setError('密码错误，请重试');
+        setError('密碼錯誤，請重試');
       }
     } catch (err) {
-      setError('验证失败，请重试');
+      setError('驗證失敗，請重試');
     } finally {
       setIsVerifying(false);
     }
@@ -55,7 +55,7 @@ const CategoryActionAuthModal: React.FC<CategoryActionAuthModalProps> = ({
     onClose();
   };
 
-  const actionText = actionType === 'edit' ? '编辑' : '删除';
+  const actionText = actionType === 'edit' ? '編輯' : '刪除';
   const colorClass = actionType === 'edit' 
     ? 'amber' 
     : 'red';
@@ -71,14 +71,14 @@ const CategoryActionAuthModal: React.FC<CategoryActionAuthModalProps> = ({
           <div className={`w-14 h-14 bg-${colorClass}-100 dark:bg-${colorClass}-900/30 rounded-full flex items-center justify-center mb-4 text-${colorClass}-600 dark:text-${colorClass}-400`}>
             <Lock size={28} />
           </div>
-          <h2 className="text-lg font-bold dark:text-white">验证操作权限</h2>
+          <h2 className="text-lg font-bold dark:text-white">驗證操作權限</h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 text-center mt-2">
-            您正在{actionText}分类 "<span className="font-medium">{categoryName}</span>"
+            您正在{actionText}分類 "<span className="font-medium">{categoryName}</span>"
           </p>
           <div className="flex items-center gap-2 mt-2 p-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg">
             <AlertCircle size={16} className="text-amber-600 dark:text-amber-400" />
             <p className="text-xs text-amber-700 dark:text-amber-300">
-              请输入部署时设置的密码进行验证
+              請輸入部署時設置的密碼進行驗證
             </p>
           </div>
         </div>
@@ -90,7 +90,7 @@ const CategoryActionAuthModal: React.FC<CategoryActionAuthModalProps> = ({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className={`w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-${colorClass}-500 outline-none transition-all text-center tracking-widest`}
-              placeholder="请输入密码"
+              placeholder="請輸入密碼"
               autoFocus
               disabled={isVerifying}
             />
@@ -117,7 +117,7 @@ const CategoryActionAuthModal: React.FC<CategoryActionAuthModalProps> = ({
               className={`flex-1 px-4 py-2.5 bg-${colorClass}-600 text-white rounded-xl hover:bg-${colorClass}-700 transition-colors font-medium disabled:opacity-50`}
               disabled={isVerifying}
             >
-              {isVerifying ? '验证中...' : `确认${actionText}`}
+              {isVerifying ? '驗證中...' : `確認${actionText}`}
             </button>
           </div>
         </form>
@@ -125,5 +125,4 @@ const CategoryActionAuthModal: React.FC<CategoryActionAuthModalProps> = ({
     </div>
   );
 };
-
 export default CategoryActionAuthModal;

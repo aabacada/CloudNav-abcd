@@ -1,4 +1,4 @@
-
+﻿
 import { Category, LinkItem, WebDavConfig, SearchConfig, AIConfig } from "../types";
 
 // Helper to call our Cloudflare Proxy

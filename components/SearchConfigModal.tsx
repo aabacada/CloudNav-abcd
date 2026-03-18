@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { X, Plus, Trash2, Edit2, Check, Globe, Search, ExternalLink, RotateCcw } from 'lucide-react';
 import { ExternalSearchSource, SearchMode } from '../types';
 
@@ -21,7 +21,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
     enabled: true
   });
 
-  // 当sources变化或modal打开时，更新localSources
+  // 當sources變化或modal打開時，更新localSources
   useEffect(() => {
     if (isOpen) {
       setLocalSources(sources);
@@ -71,7 +71,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
     const defaultSources: ExternalSearchSource[] = [
       {
         id: 'bing',
-        name: '必应',
+        name: '必應',
         url: 'https://www.bing.com/search?q={query}',
         icon: 'Search',
         enabled: true,
@@ -143,7 +143,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
       },
       {
         id: 'wikipedia',
-        name: '维基',
+        name: '維基',
         url: 'https://zh.wikipedia.org/wiki/Special:Search?search={query}',
         icon: 'BookOpen',
         enabled: true,
@@ -186,7 +186,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
             <h3 className="text-sm font-medium dark:text-white mb-3">添加新搜索源</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-500 mb-1">名称</label>
+                <label className="block text-xs font-medium text-slate-500 mb-1">名稱</label>
                 <input
                   type="text"
                   value={newSource.name || ''}
@@ -208,7 +208,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
             </div>
             <div className="mt-3 flex justify-between items-center">
               <span className="text-xs text-slate-500">
-                提示：URL中必须包含 <code className="bg-slate-200 dark:bg-slate-600 px-1 rounded">{'{query}'}</code> 作为搜索关键词占位符
+                提示：URL中必須包含 <code className="bg-slate-200 dark:bg-slate-600 px-1 rounded">{'{query}'}</code> 作為搜索關鍵字占位符
               </span>
               <button
                 onClick={handleAddSource}
@@ -227,7 +227,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
               {localSources.length === 0 ? (
                 <div className="text-center py-8 text-slate-500 dark:text-slate-400">
                   <Globe size={32} className="mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">暂无搜索源配置</p>
+                  <p className="text-sm">暫無搜索源配置</p>
                 </div>
               ) : (
                 localSources.map((source) => (
@@ -247,7 +247,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
                           <span className="font-medium text-sm dark:text-white truncate">{source.name}</span>
                           {source.enabled && (
                             <span className="px-1.5 py-0.5 text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full">
-                              启用
+                              啟用
                             </span>
                           )}
                         </div>
@@ -260,7 +260,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
                       <button
                         onClick={() => handleDeleteSource(source.id)}
                         className="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
-                        title="删除"
+                        title="刪除"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -271,15 +271,15 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
             </div>
           </div>
 
-          {/* 使用说明 */}
+          {/* 使用說明 */}
           <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
             <h4 className="text-sm font-medium text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-1">
-              <ExternalLink size={14} /> 使用说明
+              <ExternalLink size={14} /> 使用說明
             </h4>
             <ul className="text-xs text-blue-700 dark:text-blue-400 space-y-1">
-              <li>• 点击首页搜索框左侧的放大镜图标切换搜索源</li>
-              <li>• 搜索URL中必须包含 <code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">{'{query}'}</code> 占位符</li>
-              <li>• 配置信息会自动保存到本地存储和云端（如果已登录）</li>
+              <li>• 點擊首頁搜索框左側的放大鏡圖示切換搜索源</li>
+              <li>• 搜索URL中必須包含 <code className="bg-blue-100 dark:bg-blue-800 px-1 rounded">{'{query}'}</code> 占位符</li>
+              <li>• 配置資訊會自動保存到本地儲存和雲端（如果已登錄）</li>
             </ul>
           </div>
         </div>
@@ -291,7 +291,7 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
               onClick={handleReset}
               className="px-4 py-2 text-sm bg-orange-600 text-white hover:bg-orange-700 rounded-lg transition-colors flex items-center gap-2 font-medium"
             >
-              <RotateCcw size={16} /> 重置为默认
+              <RotateCcw size={16} /> 重設為默認
             </button>
             <div className="flex justify-end gap-2">
               <button
@@ -313,5 +313,4 @@ const SearchConfigModal: React.FC<SearchConfigModalProps> = ({
     </div>
   );
 };
-
 export default SearchConfigModal;

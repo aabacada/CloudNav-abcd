@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { X, Cloud, Download, Upload, CheckCircle2, AlertCircle, RefreshCw, Save } from 'lucide-react';
 import { Category, LinkItem, WebDavConfig, SearchConfig, AIConfig } from '../types';
 import { checkWebDavConnection, uploadBackup, uploadBackupWithTimestamp, downloadBackup } from '../services/webDavService';
@@ -53,52 +53,52 @@ const BackupModal: React.FC<BackupModalProps> = ({
 
   const handleBackupToCloud = async () => {
     setSyncStatus('uploading');
-    setStatusMsg('正在上传...');
+    setStatusMsg('正在上傳...');
     const success = await uploadBackup(config, { links, categories, searchConfig, aiConfig });
     if (success) {
         setSyncStatus('success');
-        setStatusMsg('备份成功！');
+        setStatusMsg('備份成功！');
     } else {
         setSyncStatus('error');
-        setStatusMsg('上传失败，请检查配置或网络。');
+        setStatusMsg('上傳失敗，請檢查配置或網路。');
     }
   };
 
   const handleBackupToCloudWithTimestamp = async () => {
     setSyncStatus('uploading');
-    setStatusMsg('正在上传...');
+    setStatusMsg('正在上傳...');
     const result = await uploadBackupWithTimestamp(config, { links, categories, searchConfig, aiConfig });
     if (result.success) {
         setSyncStatus('success');
-        setStatusMsg(`备份成功！文件名: ${result.filename}`);
+        setStatusMsg(`備份成功！檔案名: ${result.filename}`);
     } else {
         setSyncStatus('error');
-        setStatusMsg('上传失败，请检查配置或网络。');
+        setStatusMsg('上傳失敗，請檢查配置或網路。');
     }
   };
 
   const handleRestoreFromCloud = async () => {
-    if (!confirm("确定要从 WebDAV 恢复吗？这将覆盖当前的本地数据。")) return;
+    if (!confirm("確定要從 WebDAV 恢復嗎？這將覆蓋當前的本地數據。")) return;
     
     setSyncStatus('downloading');
-    setStatusMsg('正在下载...');
+    setStatusMsg('正在下載...');
     const data = await downloadBackup(config);
     
     if (data) {
         onRestore(data.links, data.categories);
-        // 恢复搜索配置（如果存在）
+        // 恢復搜索配置（如果存在）
         if (data.searchConfig) {
             onRestoreSearchConfig(data.searchConfig);
         }
-        // 恢复AI配置（如果存在）
+        // 恢復AI配置（如果存在）
         if (data.aiConfig) {
             onRestoreAIConfig(data.aiConfig);
         }
         setSyncStatus('success');
-        setStatusMsg('恢复成功！');
+        setStatusMsg('恢復成功！');
     } else {
         setSyncStatus('error');
-        setStatusMsg('下载失败或文件格式错误。');
+        setStatusMsg('下載失敗或檔案格式錯誤。');
     }
   };
 
@@ -129,7 +129,7 @@ const BackupModal: React.FC<BackupModalProps> = ({
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-slate-200 dark:border-slate-700 max-h-[90vh] flex flex-col">
         <div className="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold dark:text-white flex items-center gap-2">
-            <Cloud className="text-blue-500" /> 备份与恢复
+            <Cloud className="text-blue-500" /> 備份與恢復
           </h3>
           <button onClick={onClose} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
             <X className="w-5 h-5 dark:text-slate-400" />
@@ -141,7 +141,7 @@ const BackupModal: React.FC<BackupModalProps> = ({
             {/* Section 1: WebDAV Configuration */}
             <section className="space-y-4">
                 <div className="flex items-center justify-between">
-                    <h4 className="font-medium text-slate-800 dark:text-slate-200">WebDAV 设置 (坚果云/<a href="https://infini-cloud.net/en/modules/mypage/usage/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 underline">InfiniCloud</a>等)</h4>
+                    <h4 className="font-medium text-slate-800 dark:text-slate-200">WebDAV 設置 (堅果雲/<a href="https://infini-cloud.net/en/modules/mypage/usage/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 underline">InfiniCloud</a>等)</h4>
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input 
                             type="checkbox" 
@@ -149,13 +149,13 @@ const BackupModal: React.FC<BackupModalProps> = ({
                             onChange={(e) => setConfig({...config, enabled: e.target.checked})}
                             className="rounded text-blue-600 focus:ring-blue-500"
                         />
-                        <span className="text-sm text-slate-600 dark:text-slate-400">启用 WebDAV</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400">啟用 WebDAV</span>
                     </label>
                 </div>
 
                 <div className={`space-y-3 transition-opacity ${!config.enabled ? 'opacity-50 pointer-events-none' : ''}`}>
                     <div>
-                        <label className="block text-xs font-medium text-slate-500 mb-1">服务器地址 (URL)</label>
+                        <label className="block text-xs font-medium text-slate-500 mb-1">伺服器地址 (URL)</label>
                         <input 
                             type="text" 
                             value={config.url}
@@ -166,7 +166,7 @@ const BackupModal: React.FC<BackupModalProps> = ({
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-medium text-slate-500 mb-1">用户名</label>
+                            <label className="block text-xs font-medium text-slate-500 mb-1">使用者名稱</label>
                             <input 
                                 type="text" 
                                 value={config.username}
@@ -175,7 +175,7 @@ const BackupModal: React.FC<BackupModalProps> = ({
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-slate-500 mb-1">应用密码</label>
+                            <label className="block text-xs font-medium text-slate-500 mb-1">應用密碼</label>
                             <input 
                                 type="password" 
                                 value={config.password}
@@ -191,7 +191,7 @@ const BackupModal: React.FC<BackupModalProps> = ({
                             disabled={isTesting}
                             className="px-3 py-1.5 text-xs font-medium bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md transition-colors"
                         >
-                            {isTesting ? '连接中...' : '测试连接'}
+                            {isTesting ? '連線中...' : '測試連接'}
                         </button>
                         <button 
                             onClick={handleSaveConfig}
@@ -199,8 +199,8 @@ const BackupModal: React.FC<BackupModalProps> = ({
                         >
                             <Save size={12} /> 保存配置
                         </button>
-                        {testResult === 'success' && <span className="text-xs text-green-500 flex items-center gap-1"><CheckCircle2 size={12}/> 连接成功</span>}
-                        {testResult === 'fail' && <span className="text-xs text-red-500 flex items-center gap-1"><AlertCircle size={12}/> 连接失败</span>}
+                        {testResult === 'success' && <span className="text-xs text-green-500 flex items-center gap-1"><CheckCircle2 size={12}/> 連接成功</span>}
+                        {testResult === 'fail' && <span className="text-xs text-red-500 flex items-center gap-1"><AlertCircle size={12}/> 連接失敗</span>}
                     </div>
                 </div>
             </section>
@@ -209,7 +209,7 @@ const BackupModal: React.FC<BackupModalProps> = ({
 
             {/* Section 2: Sync Actions */}
             <section className="space-y-4">
-                <h4 className="font-medium text-slate-800 dark:text-slate-200">云端同步操作</h4>
+                <h4 className="font-medium text-slate-800 dark:text-slate-200">雲端同步操作</h4>
                 <div className="grid grid-cols-3 gap-4">
                     <button 
                         onClick={handleBackupToCloud}
@@ -217,8 +217,8 @@ const BackupModal: React.FC<BackupModalProps> = ({
                         className="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                     >
                         <Upload className="w-8 h-8 text-blue-500 mb-2 group-hover:-translate-y-1 transition-transform" />
-                        <span className="text-sm font-medium dark:text-white">上传备份</span>
-                        <span className="text-xs text-slate-500 mt-1">覆盖云端数据</span>
+                        <span className="text-sm font-medium dark:text-white">上傳備份</span>
+                        <span className="text-xs text-slate-500 mt-1">覆蓋雲端數據</span>
                     </button>
 
                     <button 
@@ -227,8 +227,8 @@ const BackupModal: React.FC<BackupModalProps> = ({
                         className="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                     >
                         <Download className="w-8 h-8 text-purple-500 mb-2 group-hover:-translate-y-1 transition-transform" />
-                        <span className="text-sm font-medium dark:text-white">从 WebDAV 恢复</span>
-                        <span className="text-xs text-slate-500 mt-1">覆盖本地数据</span>
+                        <span className="text-sm font-medium dark:text-white">從 WebDAV 恢復</span>
+                        <span className="text-xs text-slate-500 mt-1">覆蓋本地數據</span>
                     </button>
 
                     <button 
@@ -237,8 +237,8 @@ const BackupModal: React.FC<BackupModalProps> = ({
                         className="flex flex-col items-center justify-center p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                     >
                         <Upload className="w-8 h-8 text-green-500 mb-2 group-hover:-translate-y-1 transition-transform" />
-                        <span className="text-sm font-medium dark:text-white">双重备份</span>
-                        <span className="text-xs text-slate-500 mt-1">带时间戳</span>
+                        <span className="text-sm font-medium dark:text-white">雙重備份</span>
+                        <span className="text-xs text-slate-500 mt-1">帶時間戳</span>
                     </button>
                 </div>
                 
@@ -257,30 +257,30 @@ const BackupModal: React.FC<BackupModalProps> = ({
 
              {/* Section 3: HTML Export */}
              <section className="space-y-4">
-                <h4 className="font-medium text-slate-800 dark:text-slate-200">本地导出</h4>
+                <h4 className="font-medium text-slate-800 dark:text-slate-200">本地導出</h4>
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/30 flex items-center justify-between">
                     <div>
-                        <h5 className="text-sm font-medium dark:text-slate-200">导出 HTML 书签文件</h5>
-                        <p className="text-xs text-slate-500 mt-1">兼容 Chrome, Edge, Firefox 导入格式，保留目录结构</p>
+                        <h5 className="text-sm font-medium dark:text-slate-200">導出 HTML 書籤文件</h5>
+                        <p className="text-xs text-slate-500 mt-1">相容 Chrome, Edge, Firefox 導入格式，保留目錄結構</p>
                     </div>
                     <button 
                         onClick={handleExportHtml}
                         className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-blue-500 text-slate-700 dark:text-slate-200 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
                     >
-                        <Download size={16} /> 导出 HTML
+                        <Download size={16} /> 導出 HTML
                     </button>
                 </div>
                 
                 <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-700/30 flex items-center justify-between">
                     <div>
-                        <h5 className="text-sm font-medium dark:text-slate-200">导出 cloudnav_backup.json 文件</h5>
-                        <p className="text-xs text-slate-500 mt-1">与 WebDAV 备份格式一致，便于数据迁移</p>
+                        <h5 className="text-sm font-medium dark:text-slate-200">導出 cloudnav_backup.json 文件</h5>
+                        <p className="text-xs text-slate-500 mt-1">與 WebDAV 備份格式一致，便於數據遷移</p>
                     </div>
                     <button 
                         onClick={handleExportJson}
                         className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-blue-500 text-slate-700 dark:text-slate-200 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
                     >
-                        <Download size={16} /> 导出 JSON
+                        <Download size={16} /> 導出 JSON
                     </button>
                 </div>
              </section>
@@ -290,5 +290,4 @@ const BackupModal: React.FC<BackupModalProps> = ({
     </div>
   );
 };
-
 export default BackupModal;

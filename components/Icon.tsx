@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import * as LucideIcons from 'lucide-react';
 
 interface IconProps {
@@ -12,5 +12,4 @@ const Icon: React.FC<IconProps> = ({ name, size = 20, className }) => {
   const IconComponent = LucideIcons[name] || LucideIcons.Link;
   return <IconComponent size={size} className={className} />;
 };
-
 export default Icon;

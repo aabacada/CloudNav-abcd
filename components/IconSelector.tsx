@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { X, Search, ExternalLink } from 'lucide-react';
 import Icon from './Icon';
@@ -7,7 +7,7 @@ interface IconSelectorProps {
   onSelectIcon: (iconName: string) => void;
 }
 
-// 常用图标列表，可以根据需要扩展
+// 常用圖示列表，可以根據需要擴展
 const commonIcons = [
   'Star', 'Heart', 'Bookmark', 'Flag', 'Tag', 'Hash',
   'Home', 'User', 'Users', 'Settings', 'Bell', 'Mail',
@@ -36,17 +36,17 @@ const IconSelector: React.FC<IconSelectorProps> = ({
   const [customIconName, setCustomIconName] = useState('');
   const [isValidIcon, setIsValidIcon] = useState(true);
 
-  // 获取当前目标图标
+  // 獲取當前目標圖示
   const getCurrentIcon = () => {
     return selectedIcon;
   };
 
-  // 过滤图标
+  // 過濾圖示
   const filteredIcons = commonIcons.filter(icon => 
     icon.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // 将 kebab-case 转换为 PascalCase
+  // 將 kebab-case 轉換為 PascalCase
   const kebabToPascal = (kebabName: string): string => {
     return kebabName
       .split('-')
@@ -54,25 +54,25 @@ const IconSelector: React.FC<IconSelectorProps> = ({
       .join('');
   };
 
-  // 验证图标名称是否有效
+  // 驗證圖示名稱是否有效
   const validateIconName = (iconName: string): boolean => {
     if (!iconName.trim()) return false;
     
-    // 检查是否是常用图标列表中的图标
+    // 檢查是否是常用圖示列表中的圖示
     if (commonIcons.includes(iconName)) return true;
     
-    // 检查是否是 Lucide 图标库中的图标
+    // 檢查是否是 Lucide 圖示庫中的圖示
     try {
-      // 首先尝试直接匹配
+      // 首先嘗試直接匹配
       if (iconName in LucideIcons) return true;
       
-      // 如果包含连字符，尝试转换为 PascalCase
+      // 如果包含連字號，嘗試轉換為 PascalCase
       if (iconName.includes('-')) {
         const pascalName = kebabToPascal(iconName);
         return pascalName in LucideIcons;
       }
       
-      // 尝试首字母大写
+      // 嘗試首字母大寫
       const capitalizedName = iconName.charAt(0).toUpperCase() + iconName.slice(1);
       return capitalizedName in LucideIcons;
     } catch {
@@ -93,12 +93,12 @@ const IconSelector: React.FC<IconSelectorProps> = ({
       const isValid = validateIconName(iconName);
       setIsValidIcon(isValid);
       if (isValid) {
-        // 转换为正确的图标名称格式
+        // 轉換為正確的圖示名稱格式
         let finalIconName = iconName;
         if (iconName.includes('-')) {
           finalIconName = kebabToPascal(iconName);
         } else if (!commonIcons.includes(iconName)) {
-          // 如果不是常用图标，尝试首字母大写
+          // 如果不是常用圖示，嘗試首字母大寫
           finalIconName = iconName.charAt(0).toUpperCase() + iconName.slice(1);
         }
         setSelectedIcon(finalIconName);
@@ -120,7 +120,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
-            placeholder="搜索图标..."
+            placeholder="搜索圖示..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
@@ -133,7 +133,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
       <div className="p-4 border-b border-slate-200 dark:border-slate-700">
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-slate-600 dark:text-slate-400">输入图标名称:</span>
+            <span className="text-sm text-slate-600 dark:text-slate-400">輸入圖示名稱:</span>
             <a 
               href="https://lucide.dev/icons/" 
               target="_blank" 
@@ -141,7 +141,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
               className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:underline"
             >
               <ExternalLink size={12} />
-              查看所有图标
+              查看所有圖示
             </a>
           </div>
           <div className="relative">
@@ -158,7 +158,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
             />
             {customIconName && !isValidIcon && (
               <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                <span className="text-xs text-red-500">无效图标</span>
+                <span className="text-xs text-red-500">無效圖示</span>
               </div>
             )}
           </div>
@@ -168,7 +168,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
       {/* Current Selection */}
       <div className="px-4 py-3 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-700">
         <div className="flex items-center gap-3">
-          <span className="text-sm text-slate-600 dark:text-slate-400">当前选择:</span>
+          <span className="text-sm text-slate-600 dark:text-slate-400">當前選擇:</span>
           <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-600">
             <Icon name={selectedIcon} size={18} />
             <span className="text-sm font-medium dark:text-slate-200">{selectedIcon}</span>
@@ -180,13 +180,13 @@ const IconSelector: React.FC<IconSelectorProps> = ({
       <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
         <div className="flex items-center justify-between">
           <div className="text-xs text-slate-500 dark:text-slate-400">
-            提示：可以输入 Lucide 图标名称或选择图标库
+            提示：可以輸入 Lucide 圖示名稱或選擇圖示庫
           </div>
           <button
             onClick={handleConfirm}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium"
           >
-            确定选择
+            確定選擇
           </button>
         </div>
       </div>
@@ -196,7 +196,7 @@ const IconSelector: React.FC<IconSelectorProps> = ({
         {filteredIcons.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-10 text-slate-400">
             <Search size={40} className="mb-3 opacity-50" />
-            <p>没有找到匹配的图标</p>
+            <p>沒有找到匹配的圖示</p>
           </div>
         ) : (
           <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 gap-2">
@@ -221,5 +221,4 @@ const IconSelector: React.FC<IconSelectorProps> = ({
     </div>
   );
 };
-
 export default IconSelector;

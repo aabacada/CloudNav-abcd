@@ -1,4 +1,4 @@
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+﻿import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { AIConfig } from "../types";
 
 /**
@@ -55,7 +55,7 @@ const callOpenAICompatible = async (config: AIConfig, systemPrompt: string, user
  */
 export const generateLinkDescription = async (title: string, url: string, config: AIConfig): Promise<string> => {
   if (!config.apiKey) {
-    return "请在设置中配置 API Key";
+    return "請在設置中配置 API Key";
   }
 
   const prompt = `
@@ -74,7 +74,7 @@ export const generateLinkDescription = async (title: string, url: string, config
             model: modelName,
             contents: `I have a website bookmark. ${prompt}`,
         });
-        return response.text ? response.text.trim() : "无法生成描述";
+        return response.text ? response.text.trim() : "無法生成描述";
     } else {
         // OpenAI Compatible
         const result = await callOpenAICompatible(
@@ -82,11 +82,11 @@ export const generateLinkDescription = async (title: string, url: string, config
             "You are a helpful assistant that summarizes website bookmarks.", 
             prompt
         );
-        return result || "生成描述失败";
+        return result || "生成描述失敗";
     }
   } catch (error) {
     console.error("AI generation error:", error);
-    return "生成描述失败";
+    return "生成描述失敗";
   }
 };
 

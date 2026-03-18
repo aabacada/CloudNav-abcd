@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" fill="none">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800" fill="none">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
@@ -30,7 +30,7 @@
     <rect x="259" width="1" height="752" fill="#e2e8f0"/>
 
     <!-- Sidebar: Logo -->
-    <text x="32" y="48" font-size="20" font-weight="700" fill="url(#logo-gradient)">云航 CloudNav</text>
+    <text x="32" y="48" font-size="20" font-weight="700" fill="url(#logo-gradient)">雲航 CloudNav</text>
 
     <!-- Sidebar: Menu -->
     <g transform="translate(16, 90)">
@@ -38,28 +38,28 @@
       <rect width="228" height="44" rx="8" fill="#eff6ff"/>
       <rect x="16" y="12" width="20" height="20" rx="4" fill="#3b82f6"/>
       <path d="M26 18h8 M26 22h8 M26 26h8" stroke="white" stroke-width="2"/>
-      <text x="48" y="27" font-size="14" font-weight="500" fill="#2563eb">全部链接</text>
+      <text x="48" y="27" font-size="14" font-weight="500" fill="#2563eb">全部連結</text>
       <circle cx="210" cy="22" r="3" fill="#3b82f6"/>
 
       <!-- Item: Common -->
       <g transform="translate(0, 52)">
         <rect x="16" y="12" width="20" height="20" rx="4" fill="#f1f5f9"/>
-        <text x="48" y="27" font-size="14" fill="#475569">常用推荐</text>
+        <text x="48" y="27" font-size="14" fill="#475569">常用推薦</text>
       </g>
       <!-- Item: Dev -->
       <g transform="translate(0, 96)">
         <rect x="16" y="12" width="20" height="20" rx="4" fill="#f1f5f9"/>
-        <text x="48" y="27" font-size="14" fill="#475569">开发工具</text>
+        <text x="48" y="27" font-size="14" fill="#475569">開發工具</text>
       </g>
       <!-- Item: Design -->
       <g transform="translate(0, 140)">
         <rect x="16" y="12" width="20" height="20" rx="4" fill="#f1f5f9"/>
-        <text x="48" y="27" font-size="14" fill="#475569">设计资源</text>
+        <text x="48" y="27" font-size="14" fill="#475569">設計資源</text>
       </g>
       <!-- Item: Read -->
       <g transform="translate(0, 184)">
          <rect x="16" y="12" width="20" height="20" rx="4" fill="#f1f5f9"/>
-         <text x="48" y="27" font-size="14" fill="#475569">阅读资讯</text>
+         <text x="48" y="27" font-size="14" fill="#475569">閱讀資訊</text>
       </g>
     </g>
 
@@ -67,7 +67,7 @@
     <g transform="translate(0, 680)">
        <rect width="259" height="72" fill="#f8fafc"/>
        <rect width="259" height="1" fill="#e2e8f0"/>
-       <text x="32" y="42" font-size="12" fill="#94a3b8">已同步 · Fork 项目 v1.4</text>
+       <text x="32" y="42" font-size="12" fill="#94a3b8">已同步 · Fork 項目 v1.4</text>
        <circle cx="16" cy="38" r="3" fill="#22c55e" transform="translate(10,0)"/>
     </g>
 
@@ -97,7 +97,7 @@
       <g transform="translate(32, 96)">
         
         <!-- Pinned Section -->
-        <text x="0" y="10" font-size="12" font-weight="700" fill="#64748b" letter-spacing="1">置顶 / 常用</text>
+        <text x="0" y="10" font-size="12" font-weight="700" fill="#64748b" letter-spacing="1">置頂 / 常用</text>
         
         <g transform="translate(0, 30)">
           <!-- Card 1: GitHub -->
@@ -106,7 +106,7 @@
             <rect x="12" y="12" width="40" height="40" rx="8" fill="#f1f5f9"/>
             <text x="27" y="37" font-size="18" font-weight="bold" fill="#0f172a">G</text>
             <text x="64" y="28" font-size="14" font-weight="600" fill="#1e293b">GitHub</text>
-            <text x="64" y="46" font-size="11" fill="#64748b">代码托管平台</text>
+            <text x="64" y="46" font-size="11" fill="#64748b">代碼託管平台</text>
             <circle cx="165" cy="15" r="4" fill="#3b82f6"/> <!-- Pin -->
           </g>
 
@@ -133,7 +133,7 @@
 
         <!-- All Links Section -->
         <g transform="translate(0, 140)">
-            <text x="0" y="10" font-size="12" font-weight="700" fill="#64748b" letter-spacing="1">所有链接</text>
+            <text x="0" y="10" font-size="12" font-weight="700" fill="#64748b" letter-spacing="1">所有連結</text>
             
             <g transform="translate(0, 30)">
                  <!-- Row 1 -->
