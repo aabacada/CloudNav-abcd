@@ -1,4 +1,4 @@
-import { LinkItem, Category } from '../types';
+﻿import { LinkItem, Category } from '../types';
 import { v4 as uuidv4 } from 'uuid'; // Assuming uuid is available or we use a simple generator
 
 // Simple UUID generator fallback
@@ -24,7 +24,7 @@ export const parseBookmarks = async (file: File): Promise<ImportResult> => {
   const getCategoryId = (name: string): string => {
     if (!name) return 'common';
     // Normalize: remove generic folders like "Bookmarks Bar"
-    if (['Bookmarks Bar', '书签栏', 'Other Bookmarks', '其他书签'].includes(name)) {
+    if (['Bookmarks Bar', '書籤欄', 'Other Bookmarks', '其他書籤'].includes(name)) {
         return 'common';
     }
 

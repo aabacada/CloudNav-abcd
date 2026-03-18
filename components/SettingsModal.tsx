@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { X, Save, Bot, Key, Globe, Sparkles, PauseCircle, Wrench, Box, Copy, Check, LayoutTemplate, RefreshCw, Info, Download, Sidebar, Keyboard, MousePointerClick, AlertTriangle, Package, Zap, Menu } from 'lucide-react';
 import { AIConfig, LinkItem, Category, SiteSettings } from '../types';
 import { generateLinkDescription } from '../services/geminiService';
@@ -28,10 +28,10 @@ const generateSvgIcon = (text: string, color1: string, color2: string) => {
     if (text && text.length > 0) {
         char = text.charAt(0);
         if (/^[a-zA-Z]$/.test(char)) {
-            char = '云';
+            char = '雲';
         }
     } else {
-        char = '云';
+        char = '雲';
     }
     
     const gradientId = 'g_' + Math.random().toString(36).substr(2, 9);
@@ -64,7 +64,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
   const [localConfig, setLocalConfig] = useState<AIConfig>(config);
   
   const [localSiteSettings, setLocalSiteSettings] = useState<SiteSettings>(() => ({
-      title: siteSettings?.title || 'CloudNav - 我的导航',
+      title: siteSettings?.title || 'CloudNav - 我的導航',
       navTitle: siteSettings?.navTitle || 'CloudNav',
       favicon: siteSettings?.favicon || '',
       cardStyle: siteSettings?.cardStyle || 'detailed',
@@ -99,7 +99,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     if (isOpen) {
       setLocalConfig(config);
       const safeSettings = {
-          title: siteSettings?.title || 'CloudNav - 我的导航',
+          title: siteSettings?.title || 'CloudNav - 我的導航',
           navTitle: siteSettings?.navTitle || 'CloudNav',
           favicon: siteSettings?.favicon || '',
           cardStyle: siteSettings?.cardStyle || 'detailed'
@@ -127,7 +127,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     setLocalSiteSettings(prev => {
         const next = { ...prev, [key]: value };
         
-        // 如果是身份验证过期天数修改，立即保存到 KV 空间
+        // 如果是身份驗證過期天數修改，立即保存到 KV 空間
         if (key === 'passwordExpiryDays' && authToken) {
             saveWebsiteConfigToKV(next);
         }
@@ -136,7 +136,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
     });
   };
 
-  // 保存网站配置到 KV 空间
+  // 保存網站配置到 KV 空間
   const saveWebsiteConfigToKV = async (siteSettings: SiteSettings) => {
     try {
         const response = await fetch('/api/storage', {
@@ -166,17 +166,17 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
   const handleBulkGenerate = async () => {
     if (!localConfig.apiKey) {
-        alert("请先配置并保存 API Key");
+        alert("請先配置並保存 API Key");
         return;
     }
 
     const missingLinks = links.filter(l => !l.description);
     if (missingLinks.length === 0) {
-        alert("所有链接都已有描述！");
+        alert("所有連結都已有描述！");
         return;
     }
 
-    if (!confirm(`发现 ${missingLinks.length} 个链接缺少描述，确定要使用 AI 自动生成吗？这可能需要一些时间。`)) return;
+    if (!confirm(`發現 ${missingLinks.length} 個連結缺少描述，確定要使用 AI 自動生成嗎？這可能需要一些時間。`)) return;
 
     setIsProcessing(true);
     shouldStopRef.current = false;
@@ -227,13 +227,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         name: (localSiteSettings.navTitle || "CloudNav") + " Pro",
         version: "7.6",
         minimum_chrome_version: "116",
-        description: "CloudNav - 极速侧边栏与智能收藏",
+        description: "CloudNav - 極速側邊欄與智慧收藏",
         permissions: ["activeTab", "scripting", "sidePanel", "storage", "favicon", "contextMenus", "notifications", "tabs"],
         background: {
             service_worker: "background.js"
         },
         action: {
-            default_title: "打开侧边栏 (Ctrl+Shift+E)"
+            default_title: "打開側邊欄 (Ctrl+Shift+E)"
         },
         side_panel: {
             default_path: "sidebar.html"
@@ -247,7 +247,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
               "default": "Ctrl+Shift+E",
               "mac": "Command+Shift+E"
             },
-            "description": "打开/关闭 CloudNav 侧边栏"
+            "description": "打開/關閉 CloudNav 側邊欄"
           }
         }
     };
@@ -350,7 +350,7 @@ function buildMenus() {
             chrome.contextMenus.create({
                 id: "save_to_common",
                 parentId: "cloudnav_root",
-                title: "默认分类",
+                title: "預設分類",
                 contexts: ["page", "link", "action"]
             });
         }
@@ -393,7 +393,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
 async function saveLink(title, url, categoryId, icon = '') {
     if (!CONFIG.password) {
-        notify('保存失败', '未配置密码，请先在侧边栏登录。');
+        notify('保存失敗', '未配置密碼，請先在側邊欄登錄。');
         return;
     }
 
@@ -426,10 +426,10 @@ async function saveLink(title, url, categoryId, icon = '') {
             linkCache.unshift(newLink);
             updateMenuTitle(url);
         } else {
-            notify('保存失败', \`服务器错误: \${res.status}\`);
+            notify('保存失敗', \`伺服器錯誤: \${res.status}\`);
         }
     } catch (e) {
-        notify('保存失败', '网络请求错误');
+        notify('保存失敗', '網路請求錯誤');
     }
 }
 
@@ -507,7 +507,7 @@ function notify(title, message) {
 <body>
     <div class="header">
         <input type="text" id="search" class="search-input" placeholder="搜索..." autocomplete="off">
-        <button id="refresh" class="refresh-btn" title="同步最新数据">
+        <button id="refresh" class="refresh-btn" title="同步最新數據">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
         </button>
     </div>
@@ -633,7 +633,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         if (!hasContent) {
-            container.innerHTML = filter ? '<div class="empty">无搜索结果</div>' : '<div class="empty">暂无数据</div>';
+            container.innerHTML = filter ? '<div class="empty">無搜索結果</div>' : '<div class="empty">暫無數據</div>';
         } else {
             container.innerHTML = html;
         }
@@ -653,7 +653,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             refreshBtn.classList.add('rotating');
-            container.innerHTML = '<div class="loading">同步数据中...</div>';
+            container.innerHTML = '<div class="loading">同步數據中...</div>';
             
             const res = await fetch(\`\${CONFIG.apiBase}/api/storage\`, {
                 headers: { 'x-auth-password': CONFIG.password }
@@ -669,7 +669,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             render(searchInput.value);
         } catch (e) {
-            container.innerHTML = \`<div class="empty" style="color:#ef4444">加载失败: \${e.message}<br>请点击右上角刷新</div>\`;
+            container.innerHTML = \`<div class="empty" style="color:#ef4444">載入失敗: \${e.message}<br>請點擊右上角刷新</div>\`;
         } finally {
             refreshBtn.classList.remove('rotating');
         }
@@ -695,7 +695,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <button 
                     onClick={() => handleDownloadFile(filename, code)}
                     className="text-xs flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:underline"
-                    title="下载文件"
+                    title="下載文件"
                 >
                     <Download size={12}/>
                     Download
@@ -754,7 +754,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const handleDownloadIcon = async () => {
     const blob = await generateIconBlob();
     if (!blob) {
-        alert("生成图片失败 (可能是跨域限制)。\n\n请尝试右键点击下方的预览图片，选择 '图片另存为...' 保存。");
+        alert("生成圖片失敗 (可能是跨域限制)。\n\n請嘗試右鍵點擊下方的預覽圖片，選擇 '圖片另存為...' 保存。");
         return;
     }
     const url = window.URL.createObjectURL(blob);
@@ -797,7 +797,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
     } catch(e) {
         console.error(e);
-        alert("打包下载失败");
+        alert("打包下載失敗");
     } finally {
         setIsZipping(false);
     }
@@ -806,9 +806,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!isOpen) return null;
 
   const tabs = [
-    { id: 'site', label: '网站设置', icon: LayoutTemplate },
-    { id: 'ai', label: 'AI 设置', icon: Bot },
-    { id: 'tools', label: '扩展工具', icon: Wrench },
+    { id: 'site', label: '網站設置', icon: LayoutTemplate },
+    { id: 'ai', label: 'AI 設置', icon: Bot },
+    { id: 'tools', label: '擴展工具', icon: Wrench },
   ];
 
   return (
@@ -834,7 +834,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden bg-white dark:bg-slate-800">
              <div className="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700 shrink-0">
-                <h3 className="text-lg font-semibold dark:text-white">设置</h3>
+                <h3 className="text-lg font-semibold dark:text-white">設置</h3>
                 <button onClick={onClose} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-full transition-colors">
                     <X className="w-5 h-5 dark:text-slate-400" />
                 </button>
@@ -846,7 +846,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div className="space-y-6 animate-in fade-in duration-300">
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">网页标题 (Title)</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">網頁標題 (Title)</label>
                                 <input 
                                     type="text" 
                                     value={localSiteSettings.title}
@@ -855,7 +855,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">导航栏标题</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">導航欄標題</label>
                                 <input 
                                     type="text" 
                                     value={localSiteSettings.navTitle}
@@ -864,7 +864,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">网站图标 (Favicon URL)</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">網站圖示 (Favicon URL)</label>
                                 <div className="flex gap-3 items-center">
                                     <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-600">
                                         {localSiteSettings.favicon ? <img src={localSiteSettings.favicon} className="w-full h-full object-cover"/> : <Globe size={20} className="text-slate-400"/>}
@@ -879,13 +879,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 </div>
                                 <div className="mt-3">
                                     <div className="flex items-center justify-between mb-2">
-                                        <p className="text-xs text-slate-500">选择生成的随机图标 (点击右侧按钮刷新):</p>
+                                        <p className="text-xs text-slate-500">選擇生成的隨機圖示 (點擊右側按鈕刷新):</p>
                                         <button 
                                             type="button"
                                             onClick={() => updateGeneratedIcons(localSiteSettings.navTitle)}
                                             className="text-xs flex items-center gap-1 text-blue-600 hover:bg-blue-50 dark:hover:bg-slate-700 px-2 py-1 rounded transition-colors"
                                         >
-                                            <RefreshCw size={12} /> 随机生成
+                                            <RefreshCw size={12} /> 隨機生成
                                         </button>
                                     </div>
                                     <div className="flex gap-2">
@@ -902,7 +902,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">身份验证过期天数</label>
+                                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">身份驗證過期天數</label>
                                 <div className="relative">
                                     <input 
                                         type="number" 
@@ -912,7 +912,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                         className="w-full p-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
                                     />
                                 </div>
-                                <p className="text-xs text-slate-500 mt-1">设置为 0 表示永久不退出，默认 7 天后自动退出</p>
+                                <p className="text-xs text-slate-500 mt-1">設置為 0 表示永久不退出，默認 7 天後自動退出</p>
                             </div>
                         </div>
                     </div>
@@ -944,7 +944,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     className="w-full pl-10 p-2 rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 font-mono"
                                 />
                             </div>
-                            <p className="text-xs text-slate-500 mt-1">Key 仅存储在本地浏览器缓存中，不会发送到我们的服务器。</p>
+                            <p className="text-xs text-slate-500 mt-1">Key 僅儲存在本地瀏覽器快取中，不會發送到我們的伺服器。</p>
                         </div>
 
                         {localConfig.provider === 'openai' && (
@@ -961,7 +961,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         )}
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">模型名称 (Model Name)</label>
+                            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">模型名稱 (Model Name)</label>
                             <input 
                                 type="text" 
                                 value={localConfig.model}
@@ -972,7 +972,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
 
                         <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
-                            <h4 className="text-sm font-semibold mb-2 dark:text-slate-200">批量操作</h4>
+                            <h4 className="text-sm font-semibold mb-2 dark:text-slate-200">批次操作</h4>
                             {isProcessing ? (
                                 <div className="space-y-2">
                                     <div className="flex justify-between text-xs text-slate-600 dark:text-slate-400">
@@ -990,7 +990,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     onClick={handleBulkGenerate}
                                     className="flex items-center gap-2 text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 px-3 py-2 rounded-lg transition-colors border border-purple-200 dark:border-purple-800"
                                 >
-                                    <Sparkles size={16} /> 一键补全所有缺失的描述
+                                    <Sparkles size={16} /> 一鍵補全所有缺失的描述
                                 </button>
                             )}
                         </div>
@@ -1003,31 +1003,31 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div className="space-y-3">
                             <h4 className="font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2">
                                 <span className="flex items-center justify-center w-6 h-                                -6 rounded-full bg-blue-100 text-blue-600 text-xs font-bold">1</span>
-                                输入访问密码
+                                輸入訪問密碼
                             </h4>
                             <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                                 <div className="space-y-3">
                                      <div>
-                                        <label className="text-xs text-slate-500 mb-1 block">API 域名 (自动获取)</label>
+                                        <label className="text-xs text-slate-500 mb-1 block">API 域名 (自動獲取)</label>
                                         <code className="block w-full p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded text-xs text-slate-600 dark:text-slate-400 font-mono truncate">
                                             {domain}
                                         </code>
                                      </div>
                                      <div>
-                                        <label className="text-xs text-slate-500 mb-1 block">访问密码 (Password)</label>
+                                        <label className="text-xs text-slate-500 mb-1 block">訪問密碼 (Password)</label>
                                         <div className="flex gap-2">
                                             <input 
                                                 type="text" 
                                                 value={password} 
                                                 readOnly 
                                                 className="flex-1 p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded text-sm outline-none font-mono"
-                                                placeholder="未登录 / 未设置"
+                                                placeholder="未登錄 / 未設置"
                                             />
                                              <button onClick={() => handleCopy(password, 'pwd')} className="px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:border-blue-500 rounded text-slate-600 dark:text-slate-400 transition-colors">
                                                 {copiedStates['pwd'] ? <Check size={16}/> : <Copy size={16}/>}
                                             </button>
                                         </div>
-                                        <p className="text-[10px] text-slate-400 mt-1">此密码对应您部署时设置的 PASSWORD 环境变量。</p>
+                                        <p className="text-[10px] text-slate-400 mt-1">此密碼對應您部署時設置的 PASSWORD 環境變數。</p>
                                      </div>
                                 </div>
                             </div>
@@ -1036,7 +1036,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div className="space-y-3">
                             <h4 className="font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2">
                                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-xs font-bold">2</span>
-                                选择浏览器类型
+                                選擇瀏覽器類型
                             </h4>
                             <div className="grid grid-cols-2 gap-4">
                                 <button 
@@ -1057,35 +1057,35 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <div className="space-y-4">
                             <h4 className="font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2">
                                 <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-600 text-xs font-bold">3</span>
-                                配置步骤与代码
+                                配置步驟與代碼
                             </h4>
                             
                             <div className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
                                 <h5 className="font-semibold text-sm mb-3 dark:text-slate-200">
-                                    安装指南 ({browserType === 'chrome' ? 'Chrome/Edge' : 'Firefox'}):
+                                    安裝指南 ({browserType === 'chrome' ? 'Chrome/Edge' : 'Firefox'}):
                                 </h5>
                                 <ol className="list-decimal list-inside text-sm text-slate-600 dark:text-slate-400 space-y-2 leading-relaxed">
-                                    <li>在电脑上新建文件夹 <code className="bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-xs">CloudNav-Pro</code>。</li>
-                                    <li><strong>[重要]</strong> 将下方图标保存为 <code className="bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-xs">icon.png</code>。</li>
-                                    <li>获取插件代码文件：
+                                    <li>在電腦上新建文件夾 <code className="bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-xs">CloudNav-Pro</code>。</li>
+                                    <li><strong>[重要]</strong> 將下方圖示保存為 <code className="bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700 font-mono text-xs">icon.png</code>。</li>
+                                    <li>獲取插件代碼文件：
                                         <ul className="list-disc list-inside ml-4 mt-1 space-y-1 text-slate-500">
-                                            <li><strong>方式一 (推荐)：</strong>点击下方的 <span className="text-blue-600 dark:text-blue-400 font-bold">"📦 一键下载所有文件"</span> 按钮，解压到该文件夹。</li>
-                                            <li><strong>方式二 (备用)：</strong>分别点击下方代码块的 <Download size={12} className="inline"/> 按钮下载或复制 <code className="bg-white dark:bg-slate-900 px-1 rounded">manifest.json</code>, <code className="bg-white dark:bg-slate-900 px-1 rounded">background.js</code> 等文件到该文件夹。</li>
+                                            <li><strong>方式一 (推薦)：</strong>點擊下方的 <span className="text-blue-600 dark:text-blue-400 font-bold">"📦 一鍵下載所有文件"</span> 按鈕，解壓到該文件夾。</li>
+                                            <li><strong>方式二 (備用)：</strong>分別點擊下方代碼塊的 <Download size={12} className="inline"/> 按鈕下載或複製 <code className="bg-white dark:bg-slate-900 px-1 rounded">manifest.json</code>, <code className="bg-white dark:bg-slate-900 px-1 rounded">background.js</code> 等文件到該文件夾。</li>
                                         </ul>
                                     </li>
                                     <li>
-                                        打开浏览器扩展管理页面 
+                                        打開瀏覽器擴展管理頁面 
                                         {browserType === 'chrome' ? (
                                             <> (Chrome: <code className="select-all bg-white dark:bg-slate-900 px-1 rounded">chrome://extensions</code>)</>
                                         ) : (
                                             <> (Firefox: <code className="select-all bg-white dark:bg-slate-900 px-1 rounded">about:debugging</code>)</>
                                         )}。
                                     </li>
-                                    <li className="text-blue-600 font-bold">操作关键点：</li>
-                                    <li>1. 开启右上角的 "开发者模式" (Chrome)。</li>
-                                    <li>2. 点击 "加载已解压的扩展程序"，选择包含上述文件的文件夹。</li>
+                                    <li className="text-blue-600 font-bold">操作關鍵點：</li>
+                                    <li>1. 開啟右上角的 "開發者模式" (Chrome)。</li>
+                                    <li>2. 點擊 "載入已解壓的擴展程序"，選擇包含上述文件的文件夾。</li>
                                     <li>3. 前往 <code className="select-all bg-white dark:bg-slate-900 px-1 rounded">chrome://extensions/shortcuts</code>。</li>
-                                    <li>4. <strong>[重要]</strong> 找到 "打开/关闭 CloudNav 侧边栏"，设置快捷键 (如 Ctrl+Shift+E)。</li>
+                                    <li>4. <strong>[重要]</strong> 找到 "打開/關閉 CloudNav 側邊欄"，設置快捷鍵 (如 Ctrl+Shift+E)。</li>
                                 </ol>
                                 
                                 <div className="mt-4 mb-4">
@@ -1095,16 +1095,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                                         className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg shadow-blue-500/20"
                                     >
                                         <Package size={20} />
-                                        {isZipping ? '打包中...' : '📦 一键下载所有文件 (v7.6 Pro)'}
+                                        {isZipping ? '打包中...' : '📦 一鍵下載所有文件 (v7.6 Pro)'}
                                     </button>
                                 </div>
                                 
                                 <div className="p-3 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-200 rounded border border-green-200 dark:border-green-900/50 text-sm space-y-2">
                                     <div className="font-bold flex items-center gap-2"><Zap size={16}/> 完美交互方案 (v7.6):</div>
                                     <ul className="list-disc list-inside text-xs space-y-1">
-                                        <li><strong>左键 / 快捷键:</strong> 极速打开/关闭侧边栏 (无弹窗延迟)。</li>
-                                        <li><strong>网页右键:</strong> 直接展示分类列表 (支持判重警告)。</li>
-                                        <li><strong>图标右键:</strong> 同上，统一为级联菜单，直接保存。</li>
+                                        <li><strong>左鍵 / 快捷鍵:</strong> 極速打開/關閉側邊欄 (無彈出視窗延遲)。</li>
+                                        <li><strong>網頁右鍵:</strong> 直接展示分類列表 (支持判重警告)。</li>
+                                        <li><strong>圖示右鍵:</strong> 同上，統一為級聯菜單，直接保存。</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1115,15 +1115,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                                         {localSiteSettings.favicon ? <img src={localSiteSettings.favicon} className="w-full h-full object-cover"/> : <Globe size={24} className="text-slate-400"/>}
                                     </div>
                                     <div>
-                                        <div className="font-medium text-sm dark:text-white">插件图标 (icon.png)</div>
-                                        <div className="text-xs text-slate-500">请保存此图片为 icon.png</div>
+                                        <div className="font-medium text-sm dark:text-white">插件圖示 (icon.png)</div>
+                                        <div className="text-xs text-slate-500">請保存此圖片為 icon.png</div>
                                     </div>
                                 </div>
                                 <button 
                                     onClick={handleDownloadIcon}
                                     className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:text-blue-400 rounded-lg transition-colors"
                                 >
-                                    <Download size={16} /> 下载图标
+                                    <Download size={16} /> 下載圖示
                                 </button>
                             </div>
 
@@ -1135,7 +1135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 {renderCodeBlock('background.js', extBackgroundJs)}
                                 
                                 <div className="flex items-center gap-2 text-sm font-medium text-slate-800 dark:text-slate-200 pt-2 border-t border-slate-100 dark:border-slate-700">
-                                    <Keyboard size={18} className="text-green-500"/> 侧边栏导航功能 (Sidebar)
+                                    <Keyboard size={18} className="text-green-500"/> 側邊欄導航功能 (Sidebar)
                                 </div>
                                 {renderCodeBlock('sidebar.html', extSidebarHtml)}
                                 {renderCodeBlock('sidebar.js', extSidebarJs)}
@@ -1159,5 +1159,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     </div>
   );
 };
-
 export default SettingsModal;

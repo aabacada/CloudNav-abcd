@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Lock, ArrowRight, Loader2 } from 'lucide-react';
 
 interface AuthModalProps {
@@ -20,7 +20,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onLogin }) => {
     
     const success = await onLogin(password);
     if (!success) {
-      setError('密码错误或无法连接服务器');
+      setError('密碼錯誤或無法連接伺服器');
     }
     setIsLoading(false);
   };
@@ -32,9 +32,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onLogin }) => {
           <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-4 text-blue-600 dark:text-blue-400">
             <Lock size={32} />
           </div>
-          <h2 className="text-xl font-bold dark:text-white">身份验证</h2>
+          <h2 className="text-xl font-bold dark:text-white">身份驗證</h2>
           <p className="text-sm text-slate-500 dark:text-slate-400 text-center mt-2">
-            请输入部署时设置的 PASSWORD 以同步数据
+            請輸入部署時設置的 PASSWORD 以同步數據
           </p>
         </div>
 
@@ -45,7 +45,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onLogin }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all text-center tracking-widest"
-              placeholder="访问密码"
+              placeholder="訪問密碼"
               autoFocus
             />
           </div>
@@ -61,7 +61,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onLogin }) => {
             disabled={isLoading || !password}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2"
           >
-            {isLoading ? <Loader2 className="animate-spin" /> : <>解锁进入 <ArrowRight size={18} /></>}
+            {isLoading ? <Loader2 className="animate-spin" /> : <>解鎖進入 <ArrowRight size={18} /></>}
           </button>
         </form>
       </div>

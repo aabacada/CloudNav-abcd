@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
 import { Copy, QrCode, Edit2, Trash2, Pin } from 'lucide-react';
 
 interface ContextMenuProps {
@@ -41,7 +41,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('keydown', handleEscape);
       
-      // 防止页面滚动
+      // 防止頁面滾動
       document.body.style.overflow = 'hidden';
     }
 
@@ -54,18 +54,18 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
 
   if (!isOpen) return null;
 
-  // 确保菜单位置不会超出屏幕边界
+  // 確保菜單位置不會超出螢幕邊界
   const adjustedPosition = {
     x: Math.min(position.x, window.innerWidth - 200),
     y: Math.min(position.y, window.innerHeight - 200)
   };
 
   const menuItems = [
-    { icon: Copy, label: '复制链接', onClick: onCopyLink },
-    { icon: QrCode, label: '显示二维码', onClick: onShowQRCode },
-    { icon: Edit2, label: '编辑链接', onClick: onEditLink },
-    { icon: Pin, label: '置顶/取消置顶', onClick: onTogglePin },
-    { icon: Trash2, label: '删除链接', onClick: onDeleteLink, className: 'text-red-600 dark:text-red-400' }
+    { icon: Copy, label: '複製連結', onClick: onCopyLink },
+    { icon: QrCode, label: '顯示二維碼', onClick: onShowQRCode },
+    { icon: Edit2, label: '編輯連結', onClick: onEditLink },
+    { icon: Pin, label: '置頂/取消置頂', onClick: onTogglePin },
+    { icon: Trash2, label: '刪除連結', onClick: onDeleteLink, className: 'text-red-600 dark:text-red-400' }
   ];
 
   return (
@@ -97,5 +97,4 @@ const ContextMenu: React.FC<ContextMenuProps> = ({
     </div>
   );
 };
-
 export default ContextMenu;

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import { X, Upload, FileText, ArrowRight, Check, AlertCircle, FolderInput, ListTree, Database } from 'lucide-react';
 import { Category, LinkItem, SearchConfig, AIConfig } from '../types';
 import { parseBookmarks } from '../services/bookmarkParser';
@@ -130,8 +130,8 @@ const ImportModal: React.FC<ImportModalProps> = ({
         setStep('preview');
     } catch (error) {
         const errorMessage = type === 'html' 
-            ? "解析文件失败，请确保是标准的 Chrome HTML 书签文件。"
-            : "解析文件失败，请确保是有效的 cloudnav_backup.json 文件。";
+            ? "解析文件失敗，請確保是標準的 Chrome HTML 書籤文件。"
+            : "解析文件失敗，請確保是有效的 cloudnav_backup.json 文件。";
         alert(errorMessage);
         console.error(error);
     } finally {
@@ -211,7 +211,7 @@ const ImportModal: React.FC<ImportModalProps> = ({
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
           <h3 className="text-lg font-semibold dark:text-white flex items-center gap-2">
-            <Upload size={20} className="text-blue-500"/> 导入书签
+            <Upload size={20} className="text-blue-500"/> 導入書籤
           </h3>
           <button onClick={handleClose} className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors">
             <X className="w-5 h-5 dark:text-slate-400" />
@@ -237,7 +237,7 @@ const ImportModal: React.FC<ImportModalProps> = ({
                         {analyzing && importType === 'html' ? (
                             <div className="flex flex-col items-center">
                                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 mb-2"></div>
-                                <span className="text-slate-500">正在分析书签文件...</span>
+                                <span className="text-slate-500">正在分析書籤文件...</span>
                             </div>
                         ) : (
                             <>
@@ -245,8 +245,8 @@ const ImportModal: React.FC<ImportModalProps> = ({
                                     <FileText size={32} />
                                 </div>
                                 <div className="text-center">
-                                    <p className="text-sm font-medium dark:text-white">点击选择 HTML 文件</p>
-                                    <p className="text-xs text-slate-500 mt-1">支持 Chrome, Edge, Firefox 导出的书签</p>
+                                    <p className="text-sm font-medium dark:text-white">點擊選擇 HTML 文件</p>
+                                    <p className="text-xs text-slate-500 mt-1">支持 Chrome, Edge, Firefox 導出的書籤</p>
                                 </div>
                             </>
                         )}
@@ -266,7 +266,7 @@ const ImportModal: React.FC<ImportModalProps> = ({
                         {analyzing && importType === 'json' ? (
                             <div className="flex flex-col items-center">
                                 <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-green-500 mb-2"></div>
-                                <span className="text-slate-500">正在分析备份文件...</span>
+                                <span className="text-slate-500">正在分析備份文件...</span>
                             </div>
                         ) : (
                             <>
@@ -274,8 +274,8 @@ const ImportModal: React.FC<ImportModalProps> = ({
                                     <Database size={32} />
                                 </div>
                                 <div className="text-center">
-                                    <p className="text-sm font-medium dark:text-white">导入 cloudnav_backup.json 文件</p>
-                                    <p className="text-xs text-slate-500 mt-1">与 WebDAV 备份格式一致，便于数据迁移</p>
+                                    <p className="text-sm font-medium dark:text-white">導入 cloudnav_backup.json 文件</p>
+                                    <p className="text-xs text-slate-500 mt-1">與 WebDAV 備份格式一致，便於數據遷移</p>
                                 </div>
                             </>
                         )}
@@ -289,34 +289,34 @@ const ImportModal: React.FC<ImportModalProps> = ({
                     <div className="grid grid-cols-3 gap-2">
                         <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg text-center border border-green-100 dark:border-green-900/30">
                             <div className="text-xl font-bold text-green-600 dark:text-green-400">{newLinksCount}</div>
-                            <div className="text-xs text-green-700 dark:text-green-500">新增链接</div>
+                            <div className="text-xs text-green-700 dark:text-green-500">新增連結</div>
                         </div>
                         <div className="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg text-center border border-slate-200 dark:border-slate-600">
                             <div className="text-xl font-bold text-slate-600 dark:text-slate-400">{duplicateCount}</div>
-                            <div className="text-xs text-slate-500">重复跳过</div>
+                            <div className="text-xs text-slate-500">重複跳過</div>
                         </div>
                          <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-center border border-purple-100 dark:border-purple-900/30">
                             <div className="text-xl font-bold text-purple-600 dark:text-purple-400">{importMode === 'original' ? newCategoriesCount : 0}</div>
-                            <div className="text-xs text-purple-700 dark:text-purple-500">新增分类</div>
+                            <div className="text-xs text-purple-700 dark:text-purple-500">新增分類</div>
                         </div>
                     </div>
 
                     {newLinksCount === 0 ? (
                         <div className="flex items-center gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 rounded-lg text-sm">
                             <AlertCircle size={16} />
-                            <span>未发现新链接，所有链接已存在。</span>
+                            <span>未發現新連結，所有連結已存在。</span>
                         </div>
                     ) : (
                         <div className="space-y-3">
-                            <label className="text-sm font-medium dark:text-slate-300">导入方式</label>
+                            <label className="text-sm font-medium dark:text-slate-300">導入方式</label>
                             
                             <label className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${importMode === 'original' ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-slate-200 dark:border-slate-700'}`}>
                                 <input type="radio" name="mode" className="mt-1" checked={importMode === 'original'} onChange={() => setImportMode('original')} />
                                 <div>
                                     <div className="flex items-center gap-2 font-medium text-sm dark:text-white">
-                                        <ListTree size={16} /> 保持原目录结构
+                                        <ListTree size={16} /> 保持原目錄結構
                                     </div>
-                                    <p className="text-xs text-slate-500 mt-1">如果分类不存在，将自动创建。</p>
+                                    <p className="text-xs text-slate-500 mt-1">如果分類不存在，將自動創建。</p>
                                 </div>
                             </label>
 
@@ -324,7 +324,7 @@ const ImportModal: React.FC<ImportModalProps> = ({
                                 <input type="radio" name="mode" className="mt-1" checked={importMode === 'merge'} onChange={() => setImportMode('merge')} />
                                 <div className="w-full">
                                     <div className="flex items-center gap-2 font-medium text-sm dark:text-white">
-                                        <FolderInput size={16} /> 全部导入到指定目录
+                                        <FolderInput size={16} /> 全部導入到指定目錄
                                     </div>
                                     <div className="mt-2">
                                         <select 
@@ -353,13 +353,13 @@ const ImportModal: React.FC<ImportModalProps> = ({
                 <button onClick={handleClose} className="px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">取消</button>
             ) : (
                 <>
-                    <button onClick={resetState} className="px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">重新选择</button>
+                    <button onClick={resetState} className="px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors">重新選擇</button>
                     <button 
                         onClick={executeImport} 
                         disabled={newLinksCount === 0}
                         className="px-4 py-2 text-sm bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors flex items-center gap-2 font-medium"
                     >
-                        <Check size={16} /> 确认导入 ({newLinksCount})
+                        <Check size={16} /> 確認導入 ({newLinksCount})
                     </button>
                 </>
             )}
@@ -369,5 +369,4 @@ const ImportModal: React.FC<ImportModalProps> = ({
     </div>
   );
 };
-
 export default ImportModal;

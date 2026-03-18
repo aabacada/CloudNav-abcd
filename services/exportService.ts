@@ -1,4 +1,4 @@
-import { Category, LinkItem } from "../types";
+﻿import { Category, LinkItem } from "../types";
 
 /**
  * Generates a Netscape Bookmark HTML string compatible with Chrome/Edge/Firefox import.
@@ -55,7 +55,7 @@ export const generateBookmarkHtml = (links: LinkItem[], categories: Category[]):
   const uncategorized = links.filter(l => !validCatIds.has(l.categoryId));
 
   if (uncategorized.length > 0) {
-    html += `    <DT><H3 ADD_DATE="${now}" LAST_MODIFIED="${now}">未分类</H3>\n`;
+    html += `    <DT><H3 ADD_DATE="${now}" LAST_MODIFIED="${now}">未分類</H3>\n`;
     html += `    <DL><p>\n`;
     uncategorized.forEach(link => {
         const date = Math.floor(link.createdAt / 1000);
